@@ -89,6 +89,7 @@ def main():
         ("wheel", 50, 2500, 50.0),
         ("penalty", 100, 3072, 30.72),
         ("scratch", 100, 50000, 500.0),
+        ("sicbo", 100, 18100, 181.0),
     ]
     for gtype, bet, win, mult in games:
         status, res = api_call("/api/games/record", "POST", {

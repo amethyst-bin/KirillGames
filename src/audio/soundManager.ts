@@ -557,6 +557,36 @@ class SoundManager {
     noise.start(now);
   }
 
+  // Glass dome dice shaker clatter
+  public playDiceShaker() {
+    this.vibrate([20, 25, 20, 30, 25, 35]);
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const clatters = [0.0, 0.09, 0.19, 0.31, 0.44, 0.58];
+    const freqs = [950, 1280, 840, 1150, 920, 1360];
+
+    clatters.forEach((delay, idx) => {
+      const now = ctx.currentTime + delay;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freqs[idx], now);
+      osc.frequency.exponentialRampToValueAtTime(160, now + 0.07);
+
+      gain.gain.setValueAtTime(0.28, now);
+      gain.gain.exponentialRampToValueAtTime(0.005, now + 0.07);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.08);
+    });
+  }
+
   // Tactile Haptic Vibration
   public vibrate(pattern: number | number[] = 15) {
     if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
