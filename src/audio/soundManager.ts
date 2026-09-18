@@ -173,6 +173,31 @@ class SoundManager {
     osc.stop(now + 0.2);
   }
 
+  // Casino ceramic/clay chip clink
+  public playChip() {
+    this.vibrate(6);
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(2400, now);
+    osc.frequency.exponentialRampToValueAtTime(800, now + 0.04);
+
+    gain.gain.setValueAtTime(0.2, now);
+    gain.gain.exponentialRampToValueAtTime(0.005, now + 0.045);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.05);
+  }
+
   // Big Win fanfare with cascading chimes
   public playBigWin() {
     if (this.isMuted) return;

@@ -3,7 +3,7 @@ import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users } from 'lucide-react';
 import { LiveWinTicker } from './LiveWinTicker';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty' | 'scratch' | 'sicbo' | 'sweetrush' | 'battleship' | 'rps';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty' | 'scratch' | 'sicbo' | 'sweetrush' | 'battleship' | 'rps' | 'holdem';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -226,8 +226,17 @@ const GAMES: GameItem[] = [
     category: 'Дуэль Жестов',
     emoji: '🥊',
     description: 'Камень, Ножницы, Бумага! Стрик множителей до x112!',
-    tag: 'НОВИНКА',
+    tag: 'ТОП ХИТ',
     color: 'from-amber-600/50 via-orange-700/40 to-purple-950/60 border-amber-500/50',
+  },
+  {
+    id: 'holdem',
+    name: 'Казино Холдем',
+    category: 'Техасский Покер',
+    emoji: '🃏',
+    description: 'Холдем против Дилера! Флоп, Терн, Ривер и Роял Флеш x100!',
+    tag: 'НОВИНКА',
+    color: 'from-emerald-700/50 via-green-800/40 to-slate-950/60 border-emerald-500/50',
   },
 ];
 
@@ -245,7 +254,7 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
           </p>
         </div>
         <div className="bg-purple-900/80 px-3 py-1 rounded-full border border-purple-400/40 text-[11px] font-black text-amber-300 flex items-center gap-1 shadow-md">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 23 ИГРЫ
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 24 ИГРЫ
         </div>
       </div>
 
