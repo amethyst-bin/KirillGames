@@ -736,6 +736,57 @@ class SoundManager {
     osc.stop(now + 0.17);
   }
 
+  // Heavy fist punch / clash impact
+  public playPunch() {
+    this.vibrate([20, 30, 40]);
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(220, now);
+    osc.frequency.exponentialRampToValueAtTime(45, now + 0.18);
+
+    gain.gain.setValueAtTime(0.4, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.19);
+  }
+
+  // Fast air swoosh
+  public playSwoosh() {
+    this.vibrate(10);
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(280, now);
+    osc.frequency.exponentialRampToValueAtTime(650, now + 0.08);
+    osc.frequency.exponentialRampToValueAtTime(200, now + 0.16);
+
+    gain.gain.setValueAtTime(0.18, now);
+    gain.gain.exponentialRampToValueAtTime(0.005, now + 0.17);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.18);
+  }
+
   // Tactile Haptic Vibration
   public vibrate(pattern: number | number[] = 15) {
     if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {

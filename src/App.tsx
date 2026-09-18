@@ -34,6 +34,7 @@ import { ScratchGame } from './games/ScratchGame';
 import { SicBoGame } from './games/SicBoGame';
 import { SweetRushGame } from './games/SweetRushGame';
 import { BattleshipGame } from './games/BattleshipGame';
+import { RPSGame } from './games/RPSGame';
 
 import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
@@ -160,6 +161,9 @@ function MainApp() {
             )}
             {activeGame === 'battleship' && (
               <BattleshipGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'rps' && (
+              <RPSGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
           </>
         )}
