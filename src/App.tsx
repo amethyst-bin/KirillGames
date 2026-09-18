@@ -36,9 +36,11 @@ import { SweetRushGame } from './games/SweetRushGame';
 import { BattleshipGame } from './games/BattleshipGame';
 import { RPSGame } from './games/RPSGame';
 import { CasinoHoldemGame } from './games/CasinoHoldemGame';
+import { PharaohGame } from './games/PharaohGame';
 
 import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
+import { DailyStreakModal, getDailyStreakInfo } from './components/DailyStreakModal';
 
 function MainApp() {
   const { user, showOnboarding } = useAuth();
@@ -46,6 +48,7 @@ function MainApp() {
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
   const [inspectedUser, setInspectedUser] = useState<UserData | null>(null);
   const [showQuests, setShowQuests] = useState(false);
+  const [showDailyStreak, setShowDailyStreak] = useState(false);
 
   const handleSelectGame = (gameId: GameId) => {
     setActiveGame(gameId);
@@ -65,6 +68,7 @@ function MainApp() {
   };
 
   const hasBonusReady = user ? (Date.now() - (user.last_bonus_time || 0) > 60000) : false;
+  const hasStreakReady = getDailyStreakInfo().canClaim;
 
   return (
     <div className="h-screen h-[100dvh] flex flex-col items-center justify-between text-white max-w-md mx-auto relative shadow-2xl bg-gradient-to-b from-[#250d42] via-[#16062a] to-[#0b0216] safe-top-inset overflow-hidden">
@@ -73,13 +77,18 @@ function MainApp() {
         onOpenProfile={() => setActiveTab('profile')}
         onOpenBank={() => setActiveTab('bank')}
         onOpenQuests={() => setShowQuests(true)}
+        onOpenDailyStreak={() => setShowDailyStreak(true)}
+        hasStreakReady={hasStreakReady}
       />
 
       {/* Main Content Area: in games scrolling is disabled, in catalog/tabs scrolling is enabled */}
       <main className={`flex-1 w-full flex flex-col justify-start py-2 ${activeTab === 'game' ? 'overflow-hidden' : 'overflow-y-auto pb-28 smooth-scroll'} no-scrollbar`}>
         {/* Navigation Tabs */}
         {activeTab === 'catalog' && (
-          <GameCatalog onSelectGame={handleSelectGame} />
+          <GameCatalog
+            onSelectGame={handleSelectGame}
+            onOpenDailyStreak={() => setShowDailyStreak(true)}
+          />
         )}
 
         {activeTab === 'bank' && (
@@ -169,6 +178,9 @@ function MainApp() {
             {activeGame === 'holdem' && (
               <CasinoHoldemGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
+            {activeGame === 'pharaoh' && (
+              <PharaohGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
           </>
         )}
       </main>
@@ -191,6 +203,11 @@ function MainApp() {
         isOpen={showQuests}
         onClose={() => setShowQuests(false)}
       />
+
+      {/* Daily Streak Calendar Modal */}
+      {showDailyStreak && (
+        <DailyStreakModal onClose={() => setShowDailyStreak(false)} />
+      )}
 
       {/* Onboarding Login / Register Modal */}
       {showOnboarding && <OnboardingAuthModal />}

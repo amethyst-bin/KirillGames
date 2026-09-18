@@ -812,6 +812,88 @@ class SoundManager {
     osc.stop(now + 0.18);
   }
 
+  // Mystic ancient book reveal / Free Spins trigger
+  public playBookOpen() {
+    this.vibrate([20, 40, 60]);
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const chords = [392, 493.88, 587.33, 783.99, 987.77]; // G major mystic open
+    chords.forEach((freq, idx) => {
+      const now = ctx.currentTime + idx * 0.08;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.05, now + 0.4);
+
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.52);
+    });
+  }
+
+  // Royal Egyptian Pharaoh fanfare
+  public playEgyptianFanfare() {
+    this.vibrate([30, 20, 50, 40, 80]);
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const notes = [440, 554.37, 659.25, 880, 1108.73];
+    notes.forEach((freq, idx) => {
+      const now = ctx.currentTime + idx * 0.1;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, now);
+
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.005, now + 0.35);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.36);
+    });
+  }
+
+  // Cheerful Daily Reward chime
+  public playDailyReward() {
+    this.vibrate([15, 30, 15, 40]);
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const arpeggio = [523.25, 659.25, 783.99, 1046.5, 1318.51];
+    arpeggio.forEach((freq, idx) => {
+      const now = ctx.currentTime + idx * 0.07;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.32);
+    });
+  }
+
   // Tactile Haptic Vibration
   public vibrate(pattern: number | number[] = 15) {
     if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {

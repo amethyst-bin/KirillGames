@@ -2,15 +2,23 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { soundManager } from '../audio/soundManager';
 import { formatCoins } from '../utils/format';
-import { Volume2, VolumeX, Plus, Sparkles, Trophy, Music } from 'lucide-react';
+import { Volume2, VolumeX, Plus, Sparkles, Trophy, Music, Gift } from 'lucide-react';
 
 interface HeaderBarProps {
   onOpenProfile: () => void;
   onOpenBank: () => void;
   onOpenQuests: () => void;
+  onOpenDailyStreak: () => void;
+  hasStreakReady?: boolean;
 }
 
-export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenProfile, onOpenBank, onOpenQuests }) => {
+export const HeaderBar: React.FC<HeaderBarProps> = ({
+  onOpenProfile,
+  onOpenBank,
+  onOpenQuests,
+  onOpenDailyStreak,
+  hasStreakReady,
+}) => {
   const { user } = useAuth();
   const [isMuted, setIsMuted] = useState(soundManager.getMuted());
   const [isMusicActive, setIsMusicActive] = useState(soundManager.isMusicOn());
@@ -95,6 +103,25 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenProfile, onOpenBank,
           title="Задания и Награды"
         >
           <Trophy className="w-4 h-4 text-amber-300" />
+        </button>
+
+        {/* Daily Streak Gift Button */}
+        <button
+          onClick={() => {
+            soundManager.playClick();
+            onOpenDailyStreak();
+          }}
+          className={`relative w-8 h-8 rounded-xl border flex items-center justify-center hover:scale-105 active:scale-90 transition-transform shadow-inner ${
+            hasStreakReady
+              ? 'bg-gradient-to-br from-amber-500 to-yellow-600 border-amber-300 text-purple-950 animate-bounce'
+              : 'bg-amber-500/20 border-amber-400/50 text-amber-300'
+          }`}
+          title="Ежедневный бонус"
+        >
+          <Gift className="w-4 h-4" />
+          {hasStreakReady && (
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500 border border-white animate-ping" />
+          )}
         </button>
 
         {/* Ambient Music Button */}
