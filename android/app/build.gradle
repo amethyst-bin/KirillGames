@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.kirillgames.casino"
         minSdkVersion rootProject.ext.minSdkVersion
-        def buildNum = System.getenv("BUILD_NUMBER") ? Integer.parseInt(System.getenv("BUILD_NUMBER")) : 8
+        def buildNum = System.getenv("BUILD_NUMBER") ? Integer.parseInt(System.getenv("BUILD_NUMBER")) : 9
         versionCode buildNum
         versionName "1.1.${buildNum}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

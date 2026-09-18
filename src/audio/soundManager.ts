@@ -263,6 +263,86 @@ class SoundManager {
     osc.stop(now + 0.4);
   }
 
+  // Procedural Ambient Lounge Music
+  private musicActive: boolean = false;
+  private musicInterval: any = null;
+  private currentChordIndex: number = 0;
+
+  public isMusicOn(): boolean {
+    return this.musicActive;
+  }
+
+  public toggleAmbientMusic(): boolean {
+    if (this.musicActive) {
+      this.stopAmbientMusic();
+    } else {
+      this.startAmbientMusic();
+    }
+    return this.musicActive;
+  }
+
+  public startAmbientMusic() {
+    this.musicActive = true;
+    if (this.musicInterval) clearInterval(this.musicInterval);
+
+    const chords = [
+      [261.63, 329.63, 392.00, 493.88], // Cmaj7
+      [220.00, 261.63, 329.63, 392.00], // Am7
+      [174.61, 220.00, 261.63, 329.63], // Fmaj7
+      [196.00, 261.63, 293.66, 349.23], // G7sus4
+    ];
+
+    const playStep = () => {
+      if (!this.musicActive || this.isMuted) return;
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const chord = chords[this.currentChordIndex];
+      this.currentChordIndex = (this.currentChordIndex + 1) % chords.length;
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 850;
+
+      const masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(0.04, ctx.currentTime);
+      filter.connect(masterGain);
+      masterGain.connect(ctx.destination);
+
+      chord.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const noteGain = ctx.createGain();
+
+        osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+        const now = ctx.currentTime;
+        const dur = 3.2;
+
+        noteGain.gain.setValueAtTime(0.001, now);
+        noteGain.gain.linearRampToValueAtTime(0.03, now + 0.6);
+        noteGain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        osc.connect(noteGain);
+        noteGain.connect(filter);
+
+        osc.start(now);
+        osc.stop(now + dur + 0.1);
+      });
+    };
+
+    playStep();
+    this.musicInterval = setInterval(playStep, 3200);
+  }
+
+  public stopAmbientMusic() {
+    this.musicActive = false;
+    if (this.musicInterval) {
+      clearInterval(this.musicInterval);
+      this.musicInterval = null;
+    }
+  }
+
   // Tactile Haptic Vibration
   public vibrate(pattern: number | number[] = 15) {
     if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {

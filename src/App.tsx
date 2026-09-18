@@ -23,6 +23,10 @@ import { RouletteGame } from './games/RouletteGame';
 import { DiceGame } from './games/DiceGame';
 import { KenoGame } from './games/KenoGame';
 import { CoinFlipGame } from './games/CoinFlipGame';
+import { HiLoGame } from './games/HiLoGame';
+import { BaccaratGame } from './games/BaccaratGame';
+import { ThimblesGame } from './games/ThimblesGame';
+import { LimboGame } from './games/LimboGame';
 
 import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
@@ -116,6 +120,18 @@ function MainApp() {
             )}
             {activeGame === 'coinflip' && (
               <CoinFlipGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'hilo' && (
+              <HiLoGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'baccarat' && (
+              <BaccaratGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'thimbles' && (
+              <ThimblesGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'limbo' && (
+              <LimboGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
           </>
         )}

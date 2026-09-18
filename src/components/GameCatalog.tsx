@@ -1,8 +1,9 @@
 import React from 'react';
 import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users } from 'lucide-react';
+import { LiveWinTicker } from './LiveWinTicker';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -38,6 +39,24 @@ const GAMES: GameItem[] = [
     tag: 'LIVE Онлайн',
     online: true,
     color: 'from-amber-500/20 to-orange-600/30 border-amber-500/40',
+  },
+  {
+    id: 'thimbles',
+    name: 'Напёрстки',
+    category: 'Ловкость и интуиция',
+    emoji: '🪄',
+    description: 'Следи за стаканчиками и угадай где спрятан алмаз до x2.88!',
+    tag: 'Новинка',
+    color: 'from-amber-600/20 to-orange-700/30 border-amber-500/40',
+  },
+  {
+    id: 'limbo',
+    name: 'Лимбо (Limbo)',
+    category: 'Реактивный множитель',
+    emoji: '⚡',
+    description: 'Установи цель и лови космический множитель до x10 000!',
+    tag: 'Супер-куш',
+    color: 'from-cyan-600/20 to-teal-700/30 border-cyan-500/40',
   },
   {
     id: 'plinko',
@@ -120,6 +139,24 @@ const GAMES: GameItem[] = [
     tag: 'Серии побед',
     color: 'from-amber-400/20 to-yellow-600/30 border-amber-400/40',
   },
+  {
+    id: 'hilo',
+    name: 'Карты Hi-Lo',
+    category: 'Выше или Ниже',
+    emoji: '🃏',
+    description: 'Угадывай следующую карту и накапливай серии побед!',
+    tag: 'Карты',
+    color: 'from-blue-600/20 to-indigo-700/30 border-blue-500/40',
+  },
+  {
+    id: 'baccarat',
+    name: 'Баккара 9',
+    category: 'Punto Banco',
+    emoji: '👑',
+    description: 'Элитное казино: ставки на Игрока, Банкира или Ничью до x9!',
+    tag: 'VIP Классика',
+    color: 'from-emerald-600/20 to-teal-700/30 border-emerald-500/40',
+  },
 ];
 
 export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
@@ -136,9 +173,12 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
           </p>
         </div>
         <div className="bg-purple-900/60 px-3 py-1 rounded-full border border-purple-400/30 text-[11px] font-black text-amber-300 flex items-center gap-1">
-          <Sparkles className="w-3.5 h-3.5" /> 11 ИГР
+          <Sparkles className="w-3.5 h-3.5" /> 15 ИГР
         </div>
       </div>
+
+      {/* Live Win Ticker */}
+      <LiveWinTicker />
 
       {/* Grid of Games */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">

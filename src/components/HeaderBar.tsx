@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { soundManager } from '../audio/soundManager';
-import { Volume2, VolumeX, Plus, Sparkles, Trophy } from 'lucide-react';
+import { Volume2, VolumeX, Plus, Sparkles, Trophy, Music } from 'lucide-react';
 
 interface HeaderBarProps {
   onOpenProfile: () => void;
@@ -12,11 +12,18 @@ interface HeaderBarProps {
 export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenProfile, onOpenBank, onOpenQuests }) => {
   const { user } = useAuth();
   const [isMuted, setIsMuted] = useState(soundManager.getMuted());
+  const [isMusicActive, setIsMusicActive] = useState(soundManager.isMusicOn());
 
   const handleToggleSound = () => {
     const muted = soundManager.toggleMute();
     setIsMuted(muted);
     if (!muted) soundManager.playClick();
+  };
+
+  const handleToggleMusic = () => {
+    const active = soundManager.toggleAmbientMusic();
+    setIsMusicActive(active);
+    soundManager.playClick();
   };
 
   if (!user) return null;
@@ -89,10 +96,24 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenProfile, onOpenBank,
           <Trophy className="w-4 h-4 text-amber-300" />
         </button>
 
+        {/* Ambient Music Button */}
+        <button
+          onClick={handleToggleMusic}
+          className={`w-8 h-8 rounded-xl border flex items-center justify-center hover:scale-105 active:scale-90 transition-transform ${
+            isMusicActive
+              ? 'bg-pink-500/30 border-pink-400/60 text-pink-300 animate-pulse'
+              : 'bg-purple-900/80 border-purple-400/30 text-purple-300/60 hover:text-white'
+          }`}
+          title={isMusicActive ? 'Выключить музыку' : 'Включить чилл-музыку'}
+        >
+          <Music className="w-4 h-4" />
+        </button>
+
         {/* Mute Button */}
         <button
           onClick={handleToggleSound}
           className="w-8 h-8 rounded-xl bg-purple-900/80 border border-purple-400/30 flex items-center justify-center text-purple-200 hover:text-white active:scale-90 transition-transform"
+          title={isMuted ? 'Включить звуки' : 'Выключить звуки'}
         >
           {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
         </button>
