@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import type { UserData } from '../services/api';
 import { soundManager } from '../audio/soundManager';
-import { formatTimeSpent } from './PublicProfileModal';
+import { formatTimeSpent } from '../utils/format';
 import { Trophy, Coins, Flame, ChevronRight, RefreshCw } from 'lucide-react';
 
 interface LeaderboardViewProps {

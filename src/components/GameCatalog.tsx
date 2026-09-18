@@ -2,7 +2,7 @@ import React from 'react';
 import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users } from 'lucide-react';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -40,6 +40,33 @@ const GAMES: GameItem[] = [
     color: 'from-amber-500/20 to-orange-600/30 border-amber-500/40',
   },
   {
+    id: 'plinko',
+    name: 'Плинко (Plinko)',
+    category: 'Физика и риск',
+    emoji: '🟡',
+    description: 'Шарик отскакивает от препятствий и падает в ячейки с множителями!',
+    tag: 'Хит',
+    color: 'from-yellow-500/20 to-amber-600/30 border-yellow-500/40',
+  },
+  {
+    id: 'roulette',
+    name: 'Колесо Фортуны',
+    category: 'Рулетка',
+    emoji: '🎡',
+    description: 'Крути яркое колесо! Ставки на сектора и джекпот до x50.',
+    tag: 'Классика',
+    color: 'from-red-500/20 to-purple-700/30 border-red-500/40',
+  },
+  {
+    id: 'dice',
+    name: 'Кости (Dice)',
+    category: 'Hi-Lo Craps',
+    emoji: '🎲',
+    description: 'Бросай 2 кости. Ставки на Больше, Меньше 7 и дубли до x30!',
+    tag: 'Быстрая игра',
+    color: 'from-cyan-500/20 to-blue-700/30 border-cyan-500/40',
+  },
+  {
     id: 'blackjack',
     name: 'Blackjack 21',
     category: 'Карточная классика',
@@ -64,7 +91,7 @@ const GAMES: GameItem[] = [
     emoji: '🏰',
     description: 'Поднимайся по 8 этажам башни. Забирай выигрыш в любой момент!',
     tag: 'Новинка',
-    color: 'from-yellow-500/20 to-amber-700/30 border-yellow-500/40',
+    color: 'from-purple-500/20 to-indigo-700/30 border-purple-500/40',
   },
   {
     id: 'mines',
@@ -73,13 +100,13 @@ const GAMES: GameItem[] = [
     emoji: '💣',
     description: 'Выбирай количество мин и открывай сокровища шаг за шагом.',
     tag: 'Выбор игроков',
-    color: 'from-red-500/20 to-rose-700/30 border-red-500/40',
+    color: 'from-rose-500/20 to-red-700/30 border-rose-500/40',
   },
 ];
 
 export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
   return (
-    <div className="w-full flex flex-col gap-3 px-3 py-2 animate-fadeIn">
+    <div className="w-full flex flex-col gap-3 px-3 py-2 animate-fadeIn pb-24">
       {/* Catalog Title */}
       <div className="flex items-center justify-between px-1">
         <div>
@@ -91,7 +118,7 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
           </p>
         </div>
         <div className="bg-purple-900/60 px-3 py-1 rounded-full border border-purple-400/30 text-[11px] font-black text-amber-300 flex items-center gap-1">
-          <Sparkles className="w-3.5 h-3.5" /> 6 ИГР
+          <Sparkles className="w-3.5 h-3.5" /> 9 ИГР
         </div>
       </div>
 

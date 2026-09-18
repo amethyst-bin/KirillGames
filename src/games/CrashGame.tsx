@@ -20,6 +20,8 @@ interface CrashBet {
   multiplier?: number | null;
 }
 
+type CrashState = 'WAITING' | 'FLYING' | 'CRASHED';
+
 export const CrashGame: React.FC<CrashGameProps> = ({ onBack, onOpenBank }) => {
   const { user, refreshUser } = useAuth();
   const [wsConnected, setWsConnected] = useState(false);
@@ -39,6 +41,7 @@ export const CrashGame: React.FC<CrashGameProps> = ({ onBack, onOpenBank }) => {
   const [myCashoutInfo, setMyCashoutInfo] = useState<{ winAmount: number; mult: number } | null>(null);
 
   const wsRef = useRef<WebSocket | null>(null);
+  const lastStateRef = useRef<CrashState>('WAITING');
 
   // Connect WebSocket
   useEffect(() => {
@@ -89,10 +92,11 @@ export const CrashGame: React.FC<CrashGameProps> = ({ onBack, onOpenBank }) => {
               }
 
               // Sound effects
-              if (data.state === 'CRASHED' && gameState === 'FLYING') {
+              if (data.state === 'CRASHED' && lastStateRef.current === 'FLYING') {
                 soundManager.playReelStop(2);
                 refreshUser();
               }
+              lastStateRef.current = data.state;
             }
 
             if (data.type === 'ERROR') {

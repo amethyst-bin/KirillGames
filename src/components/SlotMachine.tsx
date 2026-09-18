@@ -44,6 +44,7 @@ export const SlotMachine: React.FC<SlotMachineProps> = ({
 
   // Audio tick timer reference
   const tickIntervalRef = useRef<number | null>(null);
+  const handleSpinRef = useRef<() => void>(() => {});
 
   // Auto spin loop
   useEffect(() => {
@@ -51,7 +52,7 @@ export const SlotMachine: React.FC<SlotMachineProps> = ({
     if (isAutoSpin && !isSpinning) {
       if (coins >= currentBet) {
         timer = window.setTimeout(() => {
-          handleSpin();
+          handleSpinRef.current();
         }, 1200);
       } else {
         setIsAutoSpin(false);
@@ -167,6 +168,10 @@ export const SlotMachine: React.FC<SlotMachineProps> = ({
       }
     }, 1900);
   };
+
+  useEffect(() => {
+    handleSpinRef.current = handleSpin;
+  }, [handleSpin]);
 
   // Check if a cell is part of any winning payline
   const isCellWinning = (reelIdx: number, rowIdx: number) => {

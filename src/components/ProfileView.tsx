@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { AVATARS } from '../constants/gameConfig';
 import { soundManager } from '../audio/soundManager';
-import { formatTimeSpent } from './PublicProfileModal';
+import { formatTimeSpent } from '../utils/format';
 import { Upload, LogIn, LogOut, Clock, Trophy, Dices, Coins, Shield } from 'lucide-react';
 
 export const ProfileView: React.FC = () => {

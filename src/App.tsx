@@ -18,6 +18,9 @@ import { BlackjackGame } from './games/BlackjackGame';
 import { VideoPokerGame } from './games/VideoPokerGame';
 import { TowersGame } from './games/TowersGame';
 import { MinesGame } from './games/MinesGame';
+import { PlinkoGame } from './games/PlinkoGame';
+import { RouletteGame } from './games/RouletteGame';
+import { DiceGame } from './games/DiceGame';
 
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
 
@@ -93,6 +96,15 @@ function MainApp() {
             )}
             {activeGame === 'mines' && (
               <MinesGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'plinko' && (
+              <PlinkoGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'roulette' && (
+              <RouletteGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'dice' && (
+              <DiceGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
           </>
         )}

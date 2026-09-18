@@ -27,13 +27,14 @@ export const SlotsGame: React.FC<SlotsGameProps> = ({ onBack, onOpenBank }) => {
   const [showPaytable, setShowPaytable] = useState(false);
 
   const tickRef = useRef<number | null>(null);
+  const handleSpinRef = useRef<() => void>(() => {});
 
   useEffect(() => {
     let timer: number;
     if (isAutoSpin && !isSpinning) {
       if (user && user.coins >= currentBet) {
         timer = window.setTimeout(() => {
-          handleSpin();
+          handleSpinRef.current();
         }, 1200);
       } else {
         setIsAutoSpin(false);
@@ -108,6 +109,10 @@ export const SlotsGame: React.FC<SlotsGameProps> = ({ onBack, onOpenBank }) => {
       }
     }, 1600);
   };
+
+  useEffect(() => {
+    handleSpinRef.current = handleSpin;
+  }, [handleSpin]);
 
   const isWinning = (reelIdx: number, rowIdx: number) => {
     return lastWins.some((w) =>

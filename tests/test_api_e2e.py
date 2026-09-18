@@ -76,6 +76,9 @@ def main():
         ("crash", 200, 800, 4.0),
         ("towers", 50, 187, 3.75),
         ("mines", 100, 450, 4.5),
+        ("plinko", 50, 650, 13.0),
+        ("roulette", 100, 5000, 50.0),
+        ("dice", 50, 1500, 30.0),
     ]
     for gtype, bet, win, mult in games:
         status, res = api_call("/api/games/record", "POST", {
