@@ -257,7 +257,7 @@ export const VideoPokerGame: React.FC<VideoPokerGameProps> = ({ onBack, onOpenBa
                 onClick={() => toggleHold(i)}
                 className={`relative w-full max-w-[60px] h-24 rounded-xl flex flex-col items-center justify-between p-1 cursor-pointer transition-transform duration-150 ${
                   c.held ? '-translate-y-2 ring-2 ring-amber-400 shadow-lg' : 'hover:translate-y-[-2px]'
-                } bg-white border border-gray-300 ${isRed ? 'text-red-600' : 'text-gray-900'}`}
+                } bg-white border border-gray-300 ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}
               >
                 {/* Hold Tag */}
                 {c.held && (
@@ -265,9 +265,9 @@ export const VideoPokerGame: React.FC<VideoPokerGameProps> = ({ onBack, onOpenBa
                     HOLD
                   </div>
                 )}
-                <span className="font-black text-xs leading-none self-start">{c.rank}</span>
-                <span className="text-2xl leading-none">{c.suit}</span>
-                <span className="font-black text-xs leading-none self-end">{c.rank}</span>
+                <span className={`font-black text-xs leading-none self-start ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}>{c.rank}</span>
+                <span className={`text-2xl leading-none ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}>{c.suit}</span>
+                <span className={`font-black text-xs leading-none self-end ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}>{c.rank}</span>
               </div>
             );
           })}

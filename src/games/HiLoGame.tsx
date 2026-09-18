@@ -156,17 +156,17 @@ export const HiLoGame: React.FC<HiLoGameProps> = ({ onBack, onOpenBank }) => {
           {/* Main Displayed Card */}
           <div
             className={`w-28 h-40 rounded-2xl bg-white border-2 border-gray-300 shadow-2xl p-2.5 flex flex-col justify-between transition-all duration-300 select-none animate-reel-land ${
-              currentCard.color === 'red' ? 'text-red-600' : 'text-gray-900'
+              currentCard.color === 'red' ? '!text-rose-600' : '!text-zinc-950'
             }`}
           >
-            <div className="flex justify-between items-start font-black text-base leading-none">
+            <div className={`flex justify-between items-start font-black text-base leading-none ${currentCard.color === 'red' ? '!text-rose-600' : '!text-zinc-950'}`}>
               <span>{currentCard.label}</span>
               <span>{currentCard.suit}</span>
             </div>
-            <div className="text-4xl text-center leading-none">
+            <div className={`text-4xl text-center leading-none ${currentCard.color === 'red' ? '!text-rose-600' : '!text-zinc-950'}`}>
               {currentCard.suit}
             </div>
-            <div className="flex justify-between items-end font-black text-base leading-none rotate-180">
+            <div className={`flex justify-between items-end font-black text-base leading-none rotate-180 ${currentCard.color === 'red' ? '!text-rose-600' : '!text-zinc-950'}`}>
               <span>{currentCard.label}</span>
               <span>{currentCard.suit}</span>
             </div>

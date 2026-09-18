@@ -135,19 +135,19 @@ export const DiceGame: React.FC<DiceGameProps> = ({ onBack, onOpenBank }) => {
         {/* The Two 3D Cartoon Dice */}
         <div className="flex items-center gap-5 my-1">
           <div
-            className={`w-20 h-20 rounded-2xl bg-white border-2 border-gray-200 shadow-xl flex items-center justify-center text-6xl text-purple-950 font-mono select-none transition-transform ${
+            className={`w-20 h-20 rounded-2xl bg-white border-2 border-amber-400/80 shadow-2xl flex items-center justify-center text-6xl !text-black font-mono select-none transition-transform ${
               isRolling ? 'rotate-12 scale-110' : ''
             }`}
           >
-            {DICE_FACES[die1 - 1]}
+            <span className="!text-black">{DICE_FACES[die1 - 1]}</span>
           </div>
 
           <div
-            className={`w-20 h-20 rounded-2xl bg-white border-2 border-gray-200 shadow-xl flex items-center justify-center text-6xl text-purple-950 font-mono select-none transition-transform ${
+            className={`w-20 h-20 rounded-2xl bg-white border-2 border-amber-400/80 shadow-2xl flex items-center justify-center text-6xl !text-black font-mono select-none transition-transform ${
               isRolling ? '-rotate-12 scale-110' : ''
             }`}
           >
-            {DICE_FACES[die2 - 1]}
+            <span className="!text-black">{DICE_FACES[die2 - 1]}</span>
           </div>
         </div>
 

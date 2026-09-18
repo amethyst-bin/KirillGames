@@ -23,11 +23,11 @@ export const LiquidGlassNavbar: React.FC<LiquidGlassNavbarProps> = ({
   ];
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[92%] max-w-sm z-40 pointer-events-auto">
-      {/* Liquid Glass Pill */}
-      <nav className="relative flex items-center justify-between px-2.5 py-1.5 rounded-full bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden">
+    <div className="fixed bottom-3 left-1/2 -translate-x-1/2 w-[94%] max-w-sm z-40 pointer-events-auto">
+      {/* Liquid Glass Pill with Deep Contrast */}
+      <nav className="relative flex items-center justify-between px-2 py-1.5 rounded-2xl bg-[#160429] border-2 border-purple-500/40 shadow-[0_10px_35px_rgba(0,0,0,0.85)]">
         {/* Subtle glass shimmer gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/15 via-transparent to-black/20 pointer-events-none rounded-full" />
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/15 via-transparent to-black/40 pointer-events-none rounded-2xl" />
 
         {tabs.map((t) => {
           const Icon = t.icon;
@@ -40,19 +40,21 @@ export const LiquidGlassNavbar: React.FC<LiquidGlassNavbarProps> = ({
                 soundManager.playClick();
                 onTabChange(t.id);
               }}
-              className={`relative flex flex-col items-center justify-center flex-1 py-1.5 px-2 rounded-full transition-all duration-200 ${
+              className={`relative flex flex-col items-center justify-center flex-1 py-1.5 px-1.5 rounded-xl transition-all duration-200 ${
                 isActive
-                  ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-purple-950 font-black shadow-md scale-105'
-                  : 'text-white/80 hover:text-white hover:bg-white/5 active:scale-95'
+                  ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-purple-950 font-black shadow-lg scale-105'
+                  : 'text-purple-200 hover:text-white hover:bg-white/5 active:scale-95'
               }`}
             >
               <div className="relative">
-                <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-2'}`} />
+                <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5] text-purple-950' : 'stroke-2 text-purple-200'}`} />
                 {t.badge && (
                   <span className="absolute -top-1 -right-1.5 w-2.5 h-2.5 bg-emerald-400 border border-white rounded-full animate-ping" />
                 )}
               </div>
-              <span className="text-[10px] font-extrabold tracking-tight mt-0.5 select-none">
+              <span className={`text-[10px] font-black tracking-tight mt-0.5 select-none ${
+                isActive ? 'text-purple-950' : 'text-purple-200'
+              }`}>
                 {t.label}
               </span>
             </button>

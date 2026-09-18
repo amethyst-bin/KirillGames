@@ -197,12 +197,12 @@ export const BaccaratGame: React.FC<BaccaratGameProps> = ({ onBack, onOpenBank }
                   <div
                     key={i}
                     className={`w-11 h-16 rounded-lg bg-white border border-gray-300 shadow p-1 flex flex-col justify-between text-xs font-black leading-none animate-reel-land ${
-                      c.color === 'red' ? 'text-red-600' : 'text-gray-900'
+                      c.color === 'red' ? '!text-rose-600' : '!text-zinc-950'
                     }`}
                   >
-                    <span>{c.label}</span>
-                    <span className="text-base text-center">{c.suit}</span>
-                    <span className="self-end rotate-180">{c.label}</span>
+                    <span className={c.color === 'red' ? '!text-rose-600' : '!text-zinc-950'}>{c.label}</span>
+                    <span className={`text-base text-center ${c.color === 'red' ? '!text-rose-600' : '!text-zinc-950'}`}>{c.suit}</span>
+                    <span className={`self-end rotate-180 ${c.color === 'red' ? '!text-rose-600' : '!text-zinc-950'}`}>{c.label}</span>
                   </div>
                 ))
               )}
@@ -224,12 +224,12 @@ export const BaccaratGame: React.FC<BaccaratGameProps> = ({ onBack, onOpenBank }
                   <div
                     key={i}
                     className={`w-11 h-16 rounded-lg bg-white border border-gray-300 shadow p-1 flex flex-col justify-between text-xs font-black leading-none animate-reel-land ${
-                      c.color === 'red' ? 'text-red-600' : 'text-gray-900'
+                      c.color === 'red' ? '!text-rose-600' : '!text-zinc-950'
                     }`}
                   >
-                    <span>{c.label}</span>
-                    <span className="text-base text-center">{c.suit}</span>
-                    <span className="self-end rotate-180">{c.label}</span>
+                    <span className={c.color === 'red' ? '!text-rose-600' : '!text-zinc-950'}>{c.label}</span>
+                    <span className={`text-base text-center ${c.color === 'red' ? '!text-rose-600' : '!text-zinc-950'}`}>{c.suit}</span>
+                    <span className={`self-end rotate-180 ${c.color === 'red' ? '!text-rose-600' : '!text-zinc-950'}`}>{c.label}</span>
                   </div>
                 ))
               )}

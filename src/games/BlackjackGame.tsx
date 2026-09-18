@@ -259,16 +259,16 @@ export const BlackjackGame: React.FC<BlackjackGameProps> = ({ onBack, onOpenBank
                   className={`w-14 h-20 rounded-xl flex flex-col items-center justify-between p-1.5 shadow-md border ${
                     isHidden
                       ? 'bg-purple-950 border-purple-500/50 text-purple-300 text-lg flex items-center justify-center'
-                      : `bg-white border-gray-300 ${isRed ? 'text-red-600' : 'text-gray-900'}`
+                      : `bg-white border-gray-300 ${isRed ? '!text-rose-600' : '!text-zinc-950'}`
                   }`}
                 >
                   {isHidden ? (
                     <span className="font-black text-sm">🂠</span>
                   ) : (
                     <>
-                      <span className="font-black text-xs leading-none self-start">{c.rank}</span>
-                      <span className="text-2xl leading-none">{c.suit}</span>
-                      <span className="font-black text-xs leading-none self-end">{c.rank}</span>
+                      <span className={`font-black text-xs leading-none self-start ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}>{c.rank}</span>
+                      <span className={`text-2xl leading-none ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}>{c.suit}</span>
+                      <span className={`font-black text-xs leading-none self-end ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}>{c.rank}</span>
                     </>
                   )}
                 </div>
@@ -305,12 +305,12 @@ export const BlackjackGame: React.FC<BlackjackGameProps> = ({ onBack, onOpenBank
                 <div
                   key={i}
                   className={`w-14 h-20 rounded-xl bg-white border border-gray-300 flex flex-col items-center justify-between p-1.5 shadow-md ${
-                    isRed ? 'text-red-600' : 'text-gray-900'
+                    isRed ? '!text-rose-600' : '!text-zinc-950'
                   }`}
                 >
-                  <span className="font-black text-xs leading-none self-start">{c.rank}</span>
-                  <span className="text-2xl leading-none">{c.suit}</span>
-                  <span className="font-black text-xs leading-none self-end">{c.rank}</span>
+                  <span className={`font-black text-xs leading-none self-start ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}>{c.rank}</span>
+                  <span className={`text-2xl leading-none ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}>{c.suit}</span>
+                  <span className={`font-black text-xs leading-none self-end ${isRed ? '!text-rose-600' : '!text-zinc-950'}`}>{c.rank}</span>
                 </div>
               );
             })}

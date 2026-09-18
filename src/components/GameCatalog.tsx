@@ -26,142 +26,142 @@ const GAMES: GameItem[] = [
     name: 'Candy Slots',
     category: 'Слоты 3x3',
     emoji: '🎰',
-    description: 'Сочные барабаны, 5 линий выплат и мега-джекпоты!',
-    tag: 'Популярное',
-    color: 'from-pink-500/20 to-purple-600/30 border-pink-500/40',
-  },
-  {
-    id: 'crash',
-    name: 'Crash Rocket',
-    category: 'Мультиплеер',
-    emoji: '🚀',
-    description: 'Множитель летит ввысь! Успей забрать куш до взрыва.',
-    tag: 'LIVE Онлайн',
-    online: true,
-    color: 'from-amber-500/20 to-orange-600/30 border-amber-500/40',
-  },
-  {
-    id: 'thimbles',
-    name: 'Напёрстки',
-    category: 'Ловкость и интуиция',
-    emoji: '🪄',
-    description: 'Следи за стаканчиками и угадай где спрятан алмаз до x2.88!',
-    tag: 'Новинка',
-    color: 'from-amber-600/20 to-orange-700/30 border-amber-500/40',
-  },
-  {
-    id: 'limbo',
-    name: 'Лимбо (Limbo)',
-    category: 'Реактивный множитель',
-    emoji: '⚡',
-    description: 'Установи цель и лови космический множитель до x10 000!',
-    tag: 'Супер-куш',
-    color: 'from-cyan-600/20 to-teal-700/30 border-cyan-500/40',
-  },
-  {
-    id: 'plinko',
-    name: 'Плинко (Plinko)',
-    category: 'Физика и риск',
-    emoji: '🟡',
-    description: 'Шарик отскакивает от препятствий и падает в ячейки с множителями!',
-    tag: 'Хит',
-    color: 'from-yellow-500/20 to-amber-600/30 border-yellow-500/40',
-  },
-  {
-    id: 'roulette',
-    name: 'Колесо Фортуны',
-    category: 'Рулетка',
-    emoji: '🎡',
-    description: 'Крути яркое колесо! Ставки на сектора и джекпот до x50.',
-    tag: 'Классика',
-    color: 'from-red-500/20 to-purple-700/30 border-red-500/40',
-  },
-  {
-    id: 'dice',
-    name: 'Кости (Dice)',
-    category: 'Hi-Lo Craps',
-    emoji: '🎲',
-    description: 'Бросай 2 кости. Ставки на Больше, Меньше 7 и дубли до x30!',
-    tag: 'Быстрая игра',
-    color: 'from-cyan-500/20 to-blue-700/30 border-cyan-500/40',
-  },
-  {
-    id: 'blackjack',
-    name: 'Blackjack 21',
-    category: 'Карточная классика',
-    emoji: '🃏',
-    description: 'Обыграй крупье, собирая 21 очко без перебора!',
-    tag: 'Классика',
-    color: 'from-emerald-500/20 to-teal-600/30 border-emerald-500/40',
+    description: 'Сочные барабаны, 5 линий и джекпоты!',
+    tag: 'ТОП',
+    color: 'from-pink-600/50 via-purple-700/40 to-indigo-900/60 border-pink-500/50',
   },
   {
     id: 'poker',
     name: 'Видео-Покер',
     category: 'Jacks or Better',
     emoji: '👑',
-    description: '5 карт, удерживай лучшие и получай выплаты от пары валетов.',
+    description: 'Классический покер, держи комбинации!',
     tag: 'Покер',
-    color: 'from-blue-500/20 to-indigo-600/30 border-blue-500/40',
+    color: 'from-blue-600/50 via-indigo-700/40 to-purple-900/60 border-blue-500/50',
   },
   {
-    id: 'towers',
-    name: 'Башенки',
-    category: 'Tower of Fortune',
-    emoji: '🏰',
-    description: 'Поднимайся по 8 этажам башни. Забирай выигрыш в любой момент!',
+    id: 'crash',
+    name: 'Crash Rocket',
+    category: 'Мультиплеер',
+    emoji: '🚀',
+    description: 'Множитель летит ввысь, забери куш!',
+    tag: 'LIVE',
+    online: true,
+    color: 'from-amber-600/50 via-orange-700/40 to-red-900/60 border-amber-500/50',
+  },
+  {
+    id: 'plinko',
+    name: 'Плинко',
+    category: 'Физика и риск',
+    emoji: '🟡',
+    description: 'Шарик падает в лунки с множителями!',
+    tag: 'ХИТ',
+    color: 'from-yellow-600/50 via-amber-700/40 to-orange-900/60 border-yellow-500/50',
+  },
+  {
+    id: 'thimbles',
+    name: 'Напёрстки',
+    category: '3D Интуиция',
+    emoji: '🪄',
+    description: 'Угадай алмаз под стаканчиком до x2.88!',
     tag: 'Новинка',
-    color: 'from-purple-500/20 to-indigo-700/30 border-purple-500/40',
+    color: 'from-amber-600/50 via-orange-800/40 to-stone-900/60 border-amber-500/50',
   },
   {
-    id: 'mines',
-    name: 'Мины 5x5',
-    category: 'Логика и риск',
-    emoji: '💣',
-    description: 'Выбирай количество мин и открывай сокровища шаг за шагом.',
-    tag: 'Выбор игроков',
-    color: 'from-rose-500/20 to-red-700/30 border-rose-500/40',
+    id: 'limbo',
+    name: 'Лимбо',
+    category: 'Космо-множитель',
+    emoji: '⚡',
+    description: 'Установи цель и лови куш до x10 000!',
+    tag: 'до x10k',
+    color: 'from-cyan-600/50 via-teal-700/40 to-blue-900/60 border-cyan-500/50',
   },
   {
-    id: 'keno',
-    name: 'Кено 40',
-    category: 'Лотерея',
-    emoji: '🎟️',
-    description: 'Выбирай счастливые числа и лови шары из барабана до x5000!',
-    tag: 'Новинка',
-    color: 'from-violet-500/20 to-purple-700/30 border-violet-500/40',
+    id: 'roulette',
+    name: 'Колесо Удачи',
+    category: 'Рулетка',
+    emoji: '🎡',
+    description: 'Крути яркое колесо и лови до x50!',
+    tag: 'Классика',
+    color: 'from-red-600/50 via-rose-700/40 to-purple-900/60 border-red-500/50',
   },
   {
-    id: 'coinflip',
-    name: 'Монетка 3D',
-    category: 'Орёл или Решка',
-    emoji: '🪙',
-    description: 'Удваивай выигрыш с каждым верным броском монеты!',
-    tag: 'Серии побед',
-    color: 'from-amber-400/20 to-yellow-600/30 border-amber-400/40',
+    id: 'dice',
+    name: 'Кости 3D',
+    category: 'Hi-Lo Craps',
+    emoji: '🎲',
+    description: 'Ставки на Больше, Меньше 7 и дубли!',
+    tag: 'Быстро',
+    color: 'from-cyan-600/50 via-blue-700/40 to-indigo-900/60 border-cyan-500/50',
   },
   {
-    id: 'hilo',
-    name: 'Карты Hi-Lo',
-    category: 'Выше или Ниже',
+    id: 'blackjack',
+    name: 'Blackjack 21',
+    category: 'Карточная классика',
     emoji: '🃏',
-    description: 'Угадывай следующую карту и накапливай серии побед!',
-    tag: 'Карты',
-    color: 'from-blue-600/20 to-indigo-700/30 border-blue-500/40',
+    description: 'Обыграй крупье, собирая ровно 21!',
+    tag: 'VIP',
+    color: 'from-emerald-600/50 via-teal-700/40 to-slate-900/60 border-emerald-500/50',
   },
   {
     id: 'baccarat',
     name: 'Баккара 9',
     category: 'Punto Banco',
     emoji: '👑',
-    description: 'Элитное казино: ставки на Игрока, Банкира или Ничью до x9!',
-    tag: 'VIP Классика',
-    color: 'from-emerald-600/20 to-teal-700/30 border-emerald-500/40',
+    description: 'Ставки на Игрока, Банкира и Ничью!',
+    tag: 'Элита',
+    color: 'from-emerald-700/50 via-green-800/40 to-zinc-900/60 border-emerald-500/50',
+  },
+  {
+    id: 'mines',
+    name: 'Мины 5x5',
+    category: 'Логика и риск',
+    emoji: '💣',
+    description: 'Настраивай мины и открывай алмазы!',
+    tag: 'Азарт',
+    color: 'from-rose-600/50 via-red-700/40 to-zinc-900/60 border-rose-500/50',
+  },
+  {
+    id: 'towers',
+    name: 'Башенки',
+    category: '8 этажей',
+    emoji: '🏰',
+    description: 'Поднимайся выше и забирай победу!',
+    tag: 'Башня',
+    color: 'from-purple-600/50 via-indigo-800/40 to-slate-900/60 border-purple-500/50',
+  },
+  {
+    id: 'keno',
+    name: 'Кено 40',
+    category: 'Лотерея',
+    emoji: '🎟️',
+    description: 'Счастливые шары из барабана до x5000!',
+    tag: 'Джекпот',
+    color: 'from-violet-600/50 via-purple-700/40 to-fuchsia-950/60 border-violet-500/50',
+  },
+  {
+    id: 'coinflip',
+    name: 'Монетка 3D',
+    category: 'Орёл / Решка',
+    emoji: '🪙',
+    description: 'Удваивай выигрыш с каждым броском!',
+    tag: 'Серии',
+    color: 'from-amber-500/50 via-yellow-600/40 to-stone-900/60 border-amber-500/50',
+  },
+  {
+    id: 'hilo',
+    name: 'Карты Hi-Lo',
+    category: 'Выше / Ниже',
+    emoji: '🃏',
+    description: 'Угадывай карту со сериями побед!',
+    tag: 'Карты',
+    color: 'from-blue-600/50 via-indigo-700/40 to-purple-950/60 border-blue-500/50',
   },
 ];
 
 export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
   return (
-    <div className="w-full flex flex-col gap-3 px-3 py-2 animate-fadeIn pb-24">
+    <div className="w-full flex flex-col gap-3 px-2.5 py-2 animate-fadeIn pb-28">
       {/* Catalog Title */}
       <div className="flex items-center justify-between px-1">
         <div>
@@ -169,19 +169,19 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
             Каталог Игр
           </h2>
           <p className="text-xs text-purple-200 font-bold">
-            Выбирай игру и приумножай свои монеты!
+            Выбирай игру и умножай баланс!
           </p>
         </div>
-        <div className="bg-purple-900/60 px-3 py-1 rounded-full border border-purple-400/30 text-[11px] font-black text-amber-300 flex items-center gap-1">
-          <Sparkles className="w-3.5 h-3.5" /> 15 ИГР
+        <div className="bg-purple-900/80 px-3 py-1 rounded-full border border-purple-400/40 text-[11px] font-black text-amber-300 flex items-center gap-1 shadow-md">
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 15 ИГР
         </div>
       </div>
 
       {/* Live Win Ticker */}
       <LiveWinTicker />
 
-      {/* Grid of Games */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      {/* 2 Buttons in One Row Grid */}
+      <div className="grid grid-cols-2 gap-2.5">
         {GAMES.map((game) => (
           <div
             key={game.id}
@@ -189,39 +189,56 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
               soundManager.playClick();
               onSelectGame(game.id);
             }}
-            className={`relative flex items-center gap-3 p-3.5 rounded-2xl bg-gradient-to-r ${game.color} border backdrop-blur-md cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-md group overflow-hidden`}
+            className="relative flex flex-col rounded-2xl bg-[#1b0736] border border-purple-500/30 overflow-hidden cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.97] shadow-lg group select-none"
           >
-            {/* Game Icon */}
-            <div className="w-14 h-14 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-3xl shadow-inner group-hover:scale-105 transition-transform flex-shrink-0">
-              {game.emoji}
-            </div>
+            {/* 1. Заблюреный баннер с иконкой */}
+            <div className={`relative w-full h-24 bg-gradient-to-br ${game.color} border-b border-white/10 flex flex-col items-center justify-center overflow-hidden`}>
+              {/* Blur backdrop and lighting */}
+              <div className="absolute inset-0 bg-black/25 backdrop-blur-[2px]" />
+              <div className="absolute -top-3 -right-3 w-16 h-16 rounded-full bg-white/15 blur-lg pointer-events-none" />
+              <div className="absolute -bottom-3 -left-3 w-14 h-14 rounded-full bg-black/40 blur-md pointer-events-none" />
 
-            {/* Game Info */}
-            <div className="flex flex-col flex-1 text-left min-w-0">
-              <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-sm text-white truncate group-hover:text-amber-300 transition-colors">
-                  {game.name}
-                </h3>
-                {game.tag && (
-                  <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-md text-white ${
-                    game.online ? 'bg-amber-600 flex items-center gap-0.5' : 'bg-purple-800'
+              {/* Tag Pill in corner */}
+              {game.tag && (
+                <div className="absolute top-1.5 right-1.5 z-10">
+                  <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-md text-white shadow-md ${
+                    game.online ? 'bg-amber-600 flex items-center gap-0.5' : 'bg-black/60 border border-white/20'
                   }`}>
-                    {game.online && <Users className="w-2.5 h-2.5" />}
+                    {game.online && <Users className="w-2 h-2" />}
                     {game.tag}
                   </span>
-                )}
+                </div>
+              )}
+
+              {/* Иконка игры (по центру баннера) */}
+              <div className="relative z-10 w-13 h-13 rounded-2xl bg-black/50 border border-white/25 flex items-center justify-center text-3xl shadow-inner group-hover:scale-110 transition-transform">
+                {game.emoji}
               </div>
-              <span className="text-[10px] text-purple-300 font-bold uppercase tracking-wider">
-                {game.category}
-              </span>
-              <p className="text-[11px] text-white/70 line-clamp-1 mt-0.5">
-                {game.description}
-              </p>
             </div>
 
-            {/* Play Arrow Button */}
-            <div className="w-8 h-8 rounded-full bg-amber-400 text-purple-950 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform flex-shrink-0">
-              <Play className="w-4 h-4 fill-current ml-0.5" />
+            {/* 2. Название и описание игры */}
+            <div className="p-2.5 flex flex-col flex-1 justify-between gap-1 text-left bg-gradient-to-b from-[#1b0736] to-[#120524]">
+              <div>
+                <h3 className="font-extrabold text-sm text-white group-hover:text-amber-300 transition-colors leading-tight line-clamp-1">
+                  {game.name}
+                </h3>
+                <span className="text-[9px] text-purple-300 font-bold uppercase tracking-wider block">
+                  {game.category}
+                </span>
+                <p className="text-[10px] text-purple-200/75 line-clamp-2 mt-1 leading-snug">
+                  {game.description}
+                </p>
+              </div>
+
+              {/* Play footer button */}
+              <div className="mt-1 pt-1.5 border-t border-purple-500/20 flex items-center justify-between">
+                <span className="text-[10px] font-black text-amber-300 group-hover:text-amber-200 flex items-center gap-0.5">
+                  Играть
+                </span>
+                <div className="w-5 h-5 rounded-full bg-amber-400 text-purple-950 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
+                </div>
+              </div>
             </div>
           </div>
         ))}
