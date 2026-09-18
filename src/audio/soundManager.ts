@@ -27,6 +27,7 @@ class SoundManager {
 
   // Soft cartoon button click
   public playClick() {
+    this.vibrate(10);
     if (this.isMuted) return;
     const ctx = this.getContext();
     if (!ctx) return;
@@ -234,6 +235,43 @@ class SoundManager {
       osc.start(now);
       osc.stop(now + 0.5);
     });
+    this.vibrate([40, 60, 80]);
+  }
+
+  // Explosion sound (for Crash / Mines)
+  public playExplosion() {
+    this.vibrate([100, 50, 150]);
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(120, now);
+    osc.frequency.exponentialRampToValueAtTime(30, now + 0.35);
+
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.4);
+  }
+
+  // Tactile Haptic Vibration
+  public vibrate(pattern: number | number[] = 15) {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate(pattern);
+      } catch {
+        // ignore
+      }
+    }
   }
 }
 

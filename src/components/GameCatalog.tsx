@@ -2,7 +2,7 @@ import React from 'react';
 import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users } from 'lucide-react';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -102,6 +102,24 @@ const GAMES: GameItem[] = [
     tag: 'Выбор игроков',
     color: 'from-rose-500/20 to-red-700/30 border-rose-500/40',
   },
+  {
+    id: 'keno',
+    name: 'Кено 40',
+    category: 'Лотерея',
+    emoji: '🎟️',
+    description: 'Выбирай счастливые числа и лови шары из барабана до x5000!',
+    tag: 'Новинка',
+    color: 'from-violet-500/20 to-purple-700/30 border-violet-500/40',
+  },
+  {
+    id: 'coinflip',
+    name: 'Монетка 3D',
+    category: 'Орёл или Решка',
+    emoji: '🪙',
+    description: 'Удваивай выигрыш с каждым верным броском монеты!',
+    tag: 'Серии побед',
+    color: 'from-amber-400/20 to-yellow-600/30 border-amber-400/40',
+  },
 ];
 
 export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
@@ -118,7 +136,7 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
           </p>
         </div>
         <div className="bg-purple-900/60 px-3 py-1 rounded-full border border-purple-400/30 text-[11px] font-black text-amber-300 flex items-center gap-1">
-          <Sparkles className="w-3.5 h-3.5" /> 9 ИГР
+          <Sparkles className="w-3.5 h-3.5" /> 11 ИГР
         </div>
       </div>
 

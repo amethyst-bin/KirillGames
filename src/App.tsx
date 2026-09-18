@@ -21,7 +21,10 @@ import { MinesGame } from './games/MinesGame';
 import { PlinkoGame } from './games/PlinkoGame';
 import { RouletteGame } from './games/RouletteGame';
 import { DiceGame } from './games/DiceGame';
+import { KenoGame } from './games/KenoGame';
+import { CoinFlipGame } from './games/CoinFlipGame';
 
+import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
 
 function MainApp() {
@@ -29,6 +32,7 @@ function MainApp() {
   const [activeTab, setActiveTab] = useState<NavTab>('catalog');
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
   const [inspectedUser, setInspectedUser] = useState<UserData | null>(null);
+  const [showQuests, setShowQuests] = useState(false);
 
   const handleSelectGame = (gameId: GameId) => {
     setActiveGame(gameId);
@@ -55,6 +59,7 @@ function MainApp() {
       <HeaderBar
         onOpenProfile={() => setActiveTab('profile')}
         onOpenBank={() => setActiveTab('bank')}
+        onOpenQuests={() => setShowQuests(true)}
       />
 
       {/* Main Content Area */}
@@ -106,6 +111,12 @@ function MainApp() {
             {activeGame === 'dice' && (
               <DiceGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
+            {activeGame === 'keno' && (
+              <KenoGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'coinflip' && (
+              <CoinFlipGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
           </>
         )}
       </main>
@@ -121,6 +132,12 @@ function MainApp() {
       <PublicProfileModal
         user={inspectedUser}
         onClose={() => setInspectedUser(null)}
+      />
+
+      {/* Quests & Daily Rewards Modal */}
+      <QuestsModal
+        isOpen={showQuests}
+        onClose={() => setShowQuests(false)}
       />
 
       {/* Onboarding Login / Register Modal */}

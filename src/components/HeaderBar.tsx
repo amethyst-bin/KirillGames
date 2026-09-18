@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { soundManager } from '../audio/soundManager';
-import { Volume2, VolumeX, Plus, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Plus, Sparkles, Trophy } from 'lucide-react';
 
 interface HeaderBarProps {
   onOpenProfile: () => void;
   onOpenBank: () => void;
+  onOpenQuests: () => void;
 }
 
-export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenProfile, onOpenBank }) => {
+export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenProfile, onOpenBank, onOpenQuests }) => {
   const { user } = useAuth();
   const [isMuted, setIsMuted] = useState(soundManager.getMuted());
 
@@ -75,6 +76,18 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenProfile, onOpenBank 
             <Plus className="w-3.5 h-3.5 stroke-[3]" />
           </button>
         </div>
+
+        {/* Quests Button */}
+        <button
+          onClick={() => {
+            soundManager.playClick();
+            onOpenQuests();
+          }}
+          className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-400/50 flex items-center justify-center text-amber-300 hover:scale-105 active:scale-90 transition-transform shadow-inner"
+          title="Задания и Награды"
+        >
+          <Trophy className="w-4 h-4 text-amber-300" />
+        </button>
 
         {/* Mute Button */}
         <button
