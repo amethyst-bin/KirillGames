@@ -3,7 +3,7 @@ import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users } from 'lucide-react';
 import { LiveWinTicker } from './LiveWinTicker';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -175,6 +175,15 @@ const GAMES: GameItem[] = [
     tag: 'ХИТ',
     color: 'from-amber-500/50 via-red-600/40 to-purple-900/60 border-amber-500/50',
   },
+  {
+    id: 'penalty',
+    name: 'Пенальти',
+    category: 'Футбольная Дуэль',
+    emoji: '⚽',
+    description: 'Бей по воротам вратаря и лови до x30.72!',
+    tag: 'ХИТ',
+    color: 'from-emerald-600/50 via-green-700/40 to-slate-900/60 border-emerald-500/50',
+  },
 ];
 
 export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
@@ -191,7 +200,7 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
           </p>
         </div>
         <div className="bg-purple-900/80 px-3 py-1 rounded-full border border-purple-400/40 text-[11px] font-black text-amber-300 flex items-center gap-1 shadow-md">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 17 ИГР
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 18 ИГР
         </div>
       </div>
 

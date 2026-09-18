@@ -58,7 +58,7 @@ app.post('/api/auth/register', (req, res) => {
   const password_hash = bcrypt.hashSync(password, 8);
   const info = db.prepare(`
     INSERT INTO users (username, password_hash, avatar, coins, level, xp, xp_to_next)
-    VALUES (?, ?, '🦊', 1000, 1, 0, 100)
+    VALUES (?, ?, '🦊', 5000, 1, 0, 100)
   `).run(username.trim(), password_hash);
 
   const newUser = db.prepare('SELECT * FROM users WHERE id = ?').get(info.lastInsertRowid);
@@ -95,7 +95,7 @@ app.post('/api/auth/guest', (req, res) => {
 
   const info = db.prepare(`
     INSERT INTO users (username, password_hash, avatar, coins, level, xp, xp_to_next)
-    VALUES (?, NULL, ?, 1000, 1, 0, 100)
+    VALUES (?, NULL, ?, 5000, 1, 0, 100)
   `).run(username, avatar);
 
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(info.lastInsertRowid);
@@ -169,6 +169,35 @@ app.get('/api/profile/:id', (req, res) => {
 app.post('/api/profile/heartbeat', authenticate, (req, res) => {
   db.prepare('UPDATE users SET time_spent_seconds = time_spent_seconds + 30 WHERE id = ?')
     .run(req.user.id);
+  res.json({ status: 'ok' });
+});
+
+// --- Telegram Bot Linking Routes ---
+app.post('/api/telegram/link-code', authenticate, (req, res) => {
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  const expires = Date.now() + 15 * 60 * 1000;
+
+  db.prepare(`
+    UPDATE users 
+    SET telegram_link_code = ?, telegram_link_code_expires = ? 
+    WHERE id = ?
+  `).run(code, expires, req.user.id);
+
+  res.json({
+    code,
+    botUsername: 'kirillgames_bot',
+    deepLink: `https://t.me/kirillgames_bot?start=${code}`,
+    expiresIn: 900
+  });
+});
+
+app.post('/api/telegram/unlink', authenticate, (req, res) => {
+  db.prepare(`
+    UPDATE users 
+    SET telegram_id = NULL, telegram_username = NULL, telegram_link_code = NULL, telegram_link_code_expires = NULL 
+    WHERE id = ?
+  `).run(req.user.id);
+
   res.json({ status: 'ok' });
 });
 
