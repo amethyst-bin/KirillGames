@@ -27,6 +27,7 @@ import { HiLoGame } from './games/HiLoGame';
 import { BaccaratGame } from './games/BaccaratGame';
 import { ThimblesGame } from './games/ThimblesGame';
 import { LimboGame } from './games/LimboGame';
+import { DragonTigerGame } from './games/DragonTigerGame';
 
 import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
@@ -132,6 +133,9 @@ function MainApp() {
             )}
             {activeGame === 'limbo' && (
               <LimboGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'dragontiger' && (
+              <DragonTigerGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
           </>
         )}

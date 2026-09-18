@@ -85,6 +85,7 @@ def main():
         ("baccarat", 100, 900, 9.0),
         ("thimbles", 100, 288, 2.88),
         ("limbo", 50, 500, 10.0),
+        ("dragon_tiger", 100, 1100, 11.0),
     ]
     for gtype, bet, win, mult in games:
         status, res = api_call("/api/games/record", "POST", {
