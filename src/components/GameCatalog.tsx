@@ -3,7 +3,7 @@ import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users } from 'lucide-react';
 import { LiveWinTicker } from './LiveWinTicker';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty' | 'scratch' | 'sicbo' | 'sweetrush';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty' | 'scratch' | 'sicbo' | 'sweetrush' | 'battleship';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -208,8 +208,17 @@ const GAMES: GameItem[] = [
     category: 'Кластер 5x5',
     emoji: '🍬',
     description: 'Каскадный слот со взрывными бомбами до x100!',
-    tag: 'НОВИНКА',
+    tag: 'ТОП ХИТ',
     color: 'from-pink-600/50 via-rose-700/40 to-purple-950/60 border-pink-500/50',
+  },
+  {
+    id: 'battleship',
+    name: 'Морской Куш',
+    category: 'Морской Бой',
+    emoji: '⚓',
+    description: 'Охота за линкорами и золотыми галеонами до x40!',
+    tag: 'НОВИНКА',
+    color: 'from-blue-700/50 via-cyan-800/40 to-slate-950/60 border-cyan-500/50',
   },
 ];
 
@@ -227,7 +236,7 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
           </p>
         </div>
         <div className="bg-purple-900/80 px-3 py-1 rounded-full border border-purple-400/40 text-[11px] font-black text-amber-300 flex items-center gap-1 shadow-md">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 21 ИГРА
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 22 ИГРЫ
         </div>
       </div>
 

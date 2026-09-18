@@ -39,6 +39,7 @@ export const CrashGame: React.FC<CrashGameProps> = ({ onBack, onOpenBank }) => {
   const [autoCashout, setAutoCashout] = useState<string>('2.0');
   const [hasBet, setHasBet] = useState(false);
   const [myCashoutInfo, setMyCashoutInfo] = useState<{ winAmount: number; mult: number } | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const wsRef = useRef<WebSocket | null>(null);
   const lastStateRef = useRef<CrashState>('WAITING');
@@ -100,7 +101,9 @@ export const CrashGame: React.FC<CrashGameProps> = ({ onBack, onOpenBank }) => {
             }
 
             if (data.type === 'ERROR') {
-              alert(data.message);
+              setErrorMessage(data.message || 'Ошибка');
+              soundManager.playLoss();
+              setTimeout(() => setErrorMessage(null), 3500);
             }
           } catch (e) {
             console.error('WS parse error:', e);
@@ -281,6 +284,13 @@ export const CrashGame: React.FC<CrashGameProps> = ({ onBack, onOpenBank }) => {
         {myCashoutInfo && (
           <div className="absolute top-4 bg-emerald-500/90 text-purple-950 px-4 py-1.5 rounded-full font-black text-xs uppercase shadow-lg animate-bounce z-20">
             Забрано: +{myCashoutInfo.winAmount} 🪙 ({myCashoutInfo.mult.toFixed(2)}x)
+          </div>
+        )}
+
+        {/* Error Toast */}
+        {errorMessage && (
+          <div className="absolute top-4 bg-rose-600 text-white px-4 py-1.5 rounded-full font-black text-xs uppercase shadow-lg animate-pulse z-20 border border-rose-300">
+            {errorMessage}
           </div>
         )}
       </div>

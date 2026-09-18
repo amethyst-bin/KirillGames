@@ -91,6 +91,7 @@ def main():
         ("scratch", 100, 50000, 500.0),
         ("sicbo", 100, 18100, 181.0),
         ("sweet_rush", 100, 10000, 100.0),
+        ("battleship", 100, 4000, 40.0),
     ]
     for gtype, bet, win, mult in games:
         status, res = api_call("/api/games/record", "POST", {

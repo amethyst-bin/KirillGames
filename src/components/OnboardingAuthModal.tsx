@@ -205,14 +205,14 @@ export const OnboardingAuthModal: React.FC = () => {
           <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
-              onClick={() => alert('Серверная заготовка Google OAuth готова! Скоро будет доступно.')}
+              onClick={() => setError('Авторизация через Google появится в следующем обновлении!')}
               className="flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-[11px] font-bold text-white/80 active:scale-95 transition-all"
             >
               <span>🌐</span> Google
             </button>
             <button
               type="button"
-              onClick={() => alert('Серверная заготовка Discord OAuth готова! Скоро будет доступно.')}
+              onClick={() => setError('Авторизация через Discord появится в следующем обновлении!')}
               className="flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-[#5865F2]/20 hover:bg-[#5865F2]/30 border border-[#5865F2]/40 text-[11px] font-bold text-white/80 active:scale-95 transition-all"
             >
               <span>🎮</span> Discord
