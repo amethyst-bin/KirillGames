@@ -58,7 +58,7 @@ function MainApp() {
   const hasBonusReady = user ? (Date.now() - (user.last_bonus_time || 0) > 60000) : false;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-between text-white max-w-md mx-auto relative shadow-2xl bg-gradient-to-b from-[#250d42] via-[#16062a] to-[#0b0216] safe-top-inset safe-bottom-inset">
+    <div className="h-screen h-[100dvh] flex flex-col items-center justify-between text-white max-w-md mx-auto relative shadow-2xl bg-gradient-to-b from-[#250d42] via-[#16062a] to-[#0b0216] safe-top-inset overflow-hidden">
       {/* Top App Header */}
       <HeaderBar
         onOpenProfile={() => setActiveTab('profile')}
@@ -66,8 +66,8 @@ function MainApp() {
         onOpenQuests={() => setShowQuests(true)}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 w-full flex flex-col justify-start py-2 overflow-y-auto no-scrollbar">
+      {/* Main Content Area: in games scrolling is disabled, in catalog/tabs scrolling is enabled */}
+      <main className={`flex-1 w-full flex flex-col justify-start py-2 ${activeTab === 'game' ? 'overflow-hidden' : 'overflow-y-auto pb-28'} no-scrollbar`}>
         {/* Navigation Tabs */}
         {activeTab === 'catalog' && (
           <GameCatalog onSelectGame={handleSelectGame} />

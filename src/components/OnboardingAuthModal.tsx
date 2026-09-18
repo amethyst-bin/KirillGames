@@ -47,8 +47,8 @@ export const OnboardingAuthModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
-      <div className="relative w-full max-w-sm rounded-3xl bg-purple-950/95 border-2 border-amber-400/60 p-6 shadow-2xl flex flex-col gap-3.5 text-center animate-reel-land">
+    <div className="fixed inset-0 bg-[#0c0317]/95 z-50 overflow-y-auto flex items-center justify-center p-4 py-6">
+      <div className="relative w-full max-w-sm rounded-3xl bg-[#1d0838] border-2 border-amber-400/60 p-5 shadow-2xl flex flex-col gap-3 text-center my-auto animate-reel-land">
         {/* App Logo & Welcome */}
         <div className="flex flex-col items-center gap-1">
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 p-1 flex items-center justify-center text-3xl shadow-lg border-2 border-amber-200">
