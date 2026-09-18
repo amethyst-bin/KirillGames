@@ -42,6 +42,8 @@ jobs:
         run: chmod +x android/gradlew
 
       - name: Build Android Debug APK
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
         run: |
           cd android
           ./gradlew assembleDebug --stacktrace
@@ -49,19 +51,22 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: KirillGames-Debug-APK
+          name: KirillGames-Debug-APK-v1.0.${{ github.run_number }}
           path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
 
-      - name: Create GitHub Release with APK
+      - name: Create GitHub Release with APK & Changelog
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         with:
-          tag_name: latest
-          name: 'KirillGames APK (Latest Build)'
+          tag_name: v1.0.${{ github.run_number }}
+          name: 'KirillGames v1.0.${{ github.run_number }}'
+          generate_release_notes: true
           body: |
-            🎉 Готовая сборка игры для Android!
-            Скачайте прикрепленный файл `app-debug.apk` на телефон и установите.
+            ### 🎮 KirillGames Android Сборка #${{ github.run_number }}
+            
+            - 📲 **APK файл для установки:** скачайте `app-debug.apk` ниже.
+            - 🔄 **Обновление поверх старой версии:** `versionCode` увеличен до `${{ github.run_number }}`, поэтому Android разрешит установку поверх без удаления приложения.
           files: android/app/build/outputs/apk/debug/app-debug.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

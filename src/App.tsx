@@ -19,8 +19,10 @@ import { VideoPokerGame } from './games/VideoPokerGame';
 import { TowersGame } from './games/TowersGame';
 import { MinesGame } from './games/MinesGame';
 
+import { OnboardingAuthModal } from './components/OnboardingAuthModal';
+
 function MainApp() {
-  const { user } = useAuth();
+  const { user, showOnboarding } = useAuth();
   const [activeTab, setActiveTab] = useState<NavTab>('catalog');
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
   const [inspectedUser, setInspectedUser] = useState<UserData | null>(null);
@@ -108,6 +110,9 @@ function MainApp() {
         user={inspectedUser}
         onClose={() => setInspectedUser(null)}
       />
+
+      {/* Onboarding Login / Register Modal */}
+      {showOnboarding && <OnboardingAuthModal />}
     </div>
   );
 }

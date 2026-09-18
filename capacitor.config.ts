@@ -5,7 +5,8 @@ const config: CapacitorConfig = {
   appName: 'KirillGames',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http',
+    cleartext: true
   },
   android: {
     backgroundColor: '#120623'
