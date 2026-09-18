@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { soundManager } from '../audio/soundManager';
-import { Sparkles, UserPlus, LogIn, UserX, AlertCircle, RefreshCw } from 'lucide-react';
+import { Sparkles, UserPlus, LogIn, AlertCircle, RefreshCw, Gift, ShieldCheck } from 'lucide-react';
 
 export const OnboardingAuthModal: React.FC = () => {
-  const { login, register, guestLogin, serverError, retryConnection } = useAuth();
+  const { login, register, serverError, retryConnection } = useAuth();
 
   const [mode, setMode] = useState<'login' | 'register'>('register');
   const [username, setUsername] = useState('');
@@ -46,22 +46,9 @@ export const OnboardingAuthModal: React.FC = () => {
     }
   };
 
-  const handleGuest = async () => {
-    setIsSubmitting(true);
-    setError('');
-    try {
-      await guestLogin();
-      soundManager.playCoin();
-    } catch (err: unknown) {
-      setError((err as Error).message || 'Не удалось подключиться к серверу');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
-      <div className="relative w-full max-w-sm rounded-3xl bg-purple-950/95 border-2 border-amber-400/60 p-6 shadow-2xl flex flex-col gap-4 text-center animate-reel-land">
+      <div className="relative w-full max-w-sm rounded-3xl bg-purple-950/95 border-2 border-amber-400/60 p-6 shadow-2xl flex flex-col gap-3.5 text-center animate-reel-land">
         {/* App Logo & Welcome */}
         <div className="flex flex-col items-center gap-1">
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 p-1 flex items-center justify-center text-3xl shadow-lg border-2 border-amber-200">
@@ -72,8 +59,23 @@ export const OnboardingAuthModal: React.FC = () => {
             <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
           </h2>
           <p className="text-xs text-purple-200 font-bold">
-            Войдите или создайте аккаунт, чтобы сохранять прогресс и быть в топе лидеров!
+            Создайте аккаунт или войдите, чтобы играть и побеждать в лидерборде!
           </p>
+        </div>
+
+        {/* Free Account & 5000 Coins Gift Callout */}
+        <div className="bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-amber-500/20 border border-amber-400/50 rounded-2xl p-2.5 flex items-center gap-2.5 text-left shadow-inner">
+          <div className="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-xl flex-shrink-0">
+            <Gift className="w-5 h-5 text-amber-300" />
+          </div>
+          <div>
+            <div className="text-xs font-black text-amber-300 uppercase tracking-wide flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Регистрация БЕСПЛАТНА!
+            </div>
+            <div className="text-[11px] text-purple-100 font-bold">
+              Каждому новому игроку дарим <span className="text-amber-300 font-black">+5 000 🪙</span> на баланс!
+            </div>
+          </div>
         </div>
 
         {/* Server error if any */}
@@ -148,7 +150,7 @@ export const OnboardingAuthModal: React.FC = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full bg-black/40 border border-purple-400/50 rounded-xl px-3 py-2 text-white font-extrabold text-sm focus:border-amber-400 focus:outline-none mt-0.5"
-              placeholder="Введите никнейм..."
+              placeholder="Придумайте никнейм..."
             />
           </div>
 
@@ -162,7 +164,7 @@ export const OnboardingAuthModal: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-black/40 border border-purple-400/50 rounded-xl px-3 py-2 text-white font-extrabold text-sm focus:border-amber-400 focus:outline-none mt-0.5"
-              placeholder="Пароль..."
+              placeholder="Введите пароль..."
             />
           </div>
 
@@ -190,35 +192,27 @@ export const OnboardingAuthModal: React.FC = () => {
             {isSubmitting
               ? 'Секунду...'
               : mode === 'register'
-              ? 'Создать аккаунт (1000 🪙)'
-              : 'Войти в игру'}
+              ? '🎁 Создать аккаунт (БЕСПЛАТНО + 5 000 🪙)'
+              : '🚀 Войти в игру'}
           </button>
         </form>
 
-        {/* Guest Alternative */}
-        <div className="border-t border-purple-400/20 pt-3 flex flex-col gap-2">
-          <button
-            type="button"
-            disabled={isSubmitting}
-            onClick={handleGuest}
-            className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-purple-900/60 hover:bg-purple-800 border border-purple-400/30 text-xs font-bold text-purple-200 active:scale-95 transition-all"
-          >
-            <UserX className="w-4 h-4 text-purple-400" />
-            <span>Играть как Гость (без пароля)</span>
-          </button>
-
-          {/* Social OAuth Stubs */}
-          <div className="grid grid-cols-2 gap-2 mt-1">
+        {/* OAuth Social Buttons */}
+        <div className="border-t border-purple-400/20 pt-2 flex flex-col gap-1.5">
+          <div className="text-[10px] text-purple-300 font-bold uppercase tracking-wider">
+            Вход через соцсети (скоро)
+          </div>
+          <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
-              onClick={() => alert('Серверная заготовка Google OAuth готова! Привяжите Google Client ID в настройках сервера.')}
+              onClick={() => alert('Серверная заготовка Google OAuth готова! Скоро будет доступно.')}
               className="flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-[11px] font-bold text-white/80 active:scale-95 transition-all"
             >
               <span>🌐</span> Google
             </button>
             <button
               type="button"
-              onClick={() => alert('Серверная заготовка Discord OAuth готова! Привяжите Discord Client ID в настройках сервера.')}
+              onClick={() => alert('Серверная заготовка Discord OAuth готова! Скоро будет доступно.')}
               className="flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-[#5865F2]/20 hover:bg-[#5865F2]/30 border border-[#5865F2]/40 text-[11px] font-bold text-white/80 active:scale-95 transition-all"
             >
               <span>🎮</span> Discord

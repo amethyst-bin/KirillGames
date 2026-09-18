@@ -287,7 +287,7 @@ export const ProfileView: React.FC = () => {
                 type="submit"
                 className="cartoon-btn btn-spin w-full py-2.5 text-sm font-black mt-2"
               >
-                {authMode === 'login' ? 'Войти' : 'Создать аккаунт'}
+                {authMode === 'login' ? '🚀 Войти в аккаунт' : '🎁 Создать аккаунт (БЕСПЛАТНО + 5 000 🪙)'}
               </button>
             </form>
 

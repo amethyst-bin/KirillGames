@@ -8,7 +8,7 @@
     box-sizing: border-box;
   }
 
-  body {
+  html, body {
     margin: 0;
     padding: 0;
     background: radial-gradient(circle at 50% 20%, #290f48 0%, #150626 60%, #0a0214 100%);
@@ -16,7 +16,9 @@
     font-family: 'Fredoka', 'Nunito', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
+    overscroll-behavior: none;
     -webkit-font-smoothing: antialiased;
+    -webkit-touch-callout: none;
     transform: translateZ(0);
   }
 }

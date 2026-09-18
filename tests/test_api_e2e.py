@@ -7,7 +7,7 @@ import subprocess
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
-API_URL = "http://83.143.112.6:42"
+API_URL = "http://83.143.112.6"
 
 def api_call(path, method="GET", data=None, token=None):
     url = f"{API_URL}{path}"

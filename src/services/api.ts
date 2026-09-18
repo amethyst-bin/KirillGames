@@ -1,5 +1,5 @@
-export const API_BASE_URL = 'http://83.143.112.6:42';
-export const WS_URL = 'ws://83.143.112.6:42/ws';
+export const API_BASE_URL = 'http://83.143.112.6';
+export const WS_URL = 'ws://83.143.112.6/ws';
 
 export interface UserData {
   id: number;
@@ -39,17 +39,25 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers,
-  });
+  try {
+    const res = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers,
+    });
 
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error || 'Ошибка запроса к серверу');
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || `Ошибка сервера (${res.status})`);
+    }
+
+    return data as T;
+  } catch (err: unknown) {
+    const msg = (err as Error).message || '';
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('Load failed')) {
+      throw new Error('Не удалось связаться с сервером. Проверьте интернет-соединение!');
+    }
+    throw err;
   }
-
-  return data as T;
 }
 
 export const api = {
