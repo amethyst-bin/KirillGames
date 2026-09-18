@@ -49,7 +49,7 @@ export const LiquidGlassNavbar: React.FC<LiquidGlassNavbarProps> = ({
               <div className="relative">
                 <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5] text-purple-950' : 'stroke-2 text-purple-200'}`} />
                 {t.badge && (
-                  <span className="absolute -top-1 -right-1.5 w-2.5 h-2.5 bg-emerald-400 border border-white rounded-full animate-ping" />
+                  <span className="absolute -top-1 -right-1.5 w-2.5 h-2.5 bg-emerald-400 border border-white rounded-full shadow-[0_0_6px_#34d399]" />
                 )}
               </div>
               <span className={`text-[10px] font-black tracking-tight mt-0.5 select-none ${

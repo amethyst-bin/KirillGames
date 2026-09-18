@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
+import { formatCoins } from '../utils/format';
 
 interface WinEvent {
   player: string;
@@ -54,7 +55,7 @@ export const LiveWinTicker: React.FC = () => {
 
         <div className="flex items-center gap-1 bg-amber-400/20 border border-amber-400/40 px-2 py-0.5 rounded-full text-[11px] font-black text-amber-300 flex-shrink-0">
           <Sparkles className="w-3 h-3 text-amber-400" />
-          <span>+{current.amount.toLocaleString('ru-RU')} 🪙</span>
+          <span>+{formatCoins(current.amount)} 🪙</span>
         </div>
       </div>
     </div>

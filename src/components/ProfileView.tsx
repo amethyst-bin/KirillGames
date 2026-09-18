@@ -2,11 +2,12 @@ import React, { useState, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { AVATARS } from '../constants/gameConfig';
 import { soundManager } from '../audio/soundManager';
-import { formatTimeSpent } from '../utils/format';
-import { Upload, LogIn, LogOut, Clock, Trophy, Dices, Coins, Shield } from 'lucide-react';
+import { formatTimeSpent, formatCoins } from '../utils/format';
+import { api } from '../services/api';
+import { Upload, LogIn, LogOut, Clock, Trophy, Dices, Coins, Shield, Send, Copy, Check, ExternalLink } from 'lucide-react';
 
 export const ProfileView: React.FC = () => {
-  const { user, login, register, logout, updateUser } = useAuth();
+  const { user, login, register, logout, updateUser, refreshUser } = useAuth();
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
@@ -18,6 +19,12 @@ export const ProfileView: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Telegram Linking State
+  const [telegramCode, setTelegramCode] = useState<string | null>(null);
+  const [telegramDeepLink, setTelegramDeepLink] = useState<string | null>(null);
+  const [isGeneratingTg, setIsGeneratingTg] = useState(false);
+  const [copiedTgCode, setCopiedTgCode] = useState(false);
 
   if (!user) return null;
 
@@ -59,6 +66,46 @@ export const ProfileView: React.FC = () => {
       alert((err as Error).message || 'Ошибка сохранения');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  // Telegram Handlers
+  const handleGenerateCode = async () => {
+    setIsGeneratingTg(true);
+    try {
+      soundManager.playClick();
+      const res = await api.getTelegramLinkCode();
+      setTelegramCode(res.code);
+      setTelegramDeepLink(res.deepLink);
+    } catch (err: unknown) {
+      alert((err as Error).message || 'Ошибка генерации кода');
+    } finally {
+      setIsGeneratingTg(false);
+    }
+  };
+
+  const handleCopyCode = () => {
+    if (!telegramCode) return;
+    try {
+      navigator.clipboard?.writeText(telegramCode);
+    } catch {
+      // ignore
+    }
+    soundManager.playCoin();
+    setCopiedTgCode(true);
+    setTimeout(() => setCopiedTgCode(false), 2000);
+  };
+
+  const handleUnlink = async () => {
+    if (!confirm('Вы уверены, что хотите отвязать Telegram?')) return;
+    try {
+      soundManager.playClick();
+      await api.unlinkTelegram();
+      await refreshUser();
+      setTelegramCode(null);
+      setTelegramDeepLink(null);
+    } catch (err: unknown) {
+      alert((err as Error).message || 'Ошибка отвязки');
     }
   };
 
@@ -193,44 +240,151 @@ export const ProfileView: React.FC = () => {
         {/* Detailed Stats Cards */}
         <div className="grid grid-cols-2 gap-2 w-full text-left">
           <div className="bg-purple-900/40 rounded-2xl p-3 border border-purple-400/20 flex items-center gap-3">
-            <Coins className="w-6 h-6 text-amber-400 flex-shrink-0" />
-            <div>
+            <Coins className="w-6 h-6 text-amber-400 shrink-0" />
+            <div className="min-w-0">
               <div className="text-[10px] text-purple-300 font-bold uppercase">Монеты</div>
-              <div className="font-mono font-black text-amber-300 text-sm">
-                {user.coins.toLocaleString('ru-RU')}
+              <div className="font-mono font-black text-amber-300 text-sm truncate">
+                {formatCoins(user.coins)}
               </div>
             </div>
           </div>
 
           <div className="bg-purple-900/40 rounded-2xl p-3 border border-purple-400/20 flex items-center gap-3">
-            <Trophy className="w-6 h-6 text-emerald-400 flex-shrink-0" />
-            <div>
+            <Trophy className="w-6 h-6 text-emerald-400 shrink-0" />
+            <div className="min-w-0">
               <div className="text-[10px] text-purple-300 font-bold uppercase">Макс. выигрыш</div>
-              <div className="font-mono font-black text-emerald-400 text-sm">
-                +{user.biggest_win.toLocaleString('ru-RU')}
+              <div className="font-mono font-black text-emerald-400 text-sm truncate">
+                +{formatCoins(user.biggest_win)}
               </div>
             </div>
           </div>
 
           <div className="bg-purple-900/40 rounded-2xl p-3 border border-purple-400/20 flex items-center gap-3">
-            <Dices className="w-6 h-6 text-purple-300 flex-shrink-0" />
-            <div>
+            <Dices className="w-6 h-6 text-purple-300 shrink-0" />
+            <div className="min-w-0">
               <div className="text-[10px] text-purple-300 font-bold uppercase">Сыграно игр</div>
-              <div className="font-mono font-black text-white text-sm">
+              <div className="font-mono font-black text-white text-sm truncate">
                 {user.games_played || 0}
               </div>
             </div>
           </div>
 
           <div className="bg-purple-900/40 rounded-2xl p-3 border border-purple-400/20 flex items-center gap-3">
-            <Clock className="w-6 h-6 text-cyan-400 flex-shrink-0" />
-            <div>
+            <Clock className="w-6 h-6 text-cyan-400 shrink-0" />
+            <div className="min-w-0">
               <div className="text-[10px] text-purple-300 font-bold uppercase">Время в игре</div>
-              <div className="font-mono font-black text-cyan-300 text-xs">
+              <div className="font-mono font-black text-cyan-300 text-xs truncate">
                 {formatTimeSpent(user.time_spent_seconds)}
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Telegram Bot Integration Card */}
+        <div className="w-full rounded-2xl bg-gradient-to-r from-[#0c2238] via-[#112a45] to-[#0a1a2e] border border-sky-500/40 p-3 text-left flex flex-col gap-2.5 shadow-md">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-sky-500 text-white flex items-center justify-center shadow-md">
+                <Send className="w-4 h-4 ml-0.5" />
+              </div>
+              <div>
+                <h4 className="font-black text-xs text-white uppercase tracking-wider flex items-center gap-1.5">
+                  Telegram Бот
+                  <span className="text-[9px] bg-sky-500/30 text-sky-300 px-1.5 py-0.5 rounded-full border border-sky-400/30">
+                    @kirillgames_bot
+                  </span>
+                </h4>
+                <p className="text-[10px] text-sky-200/80">
+                  Проверяйте баланс и топы прямо в мессенджере
+                </p>
+              </div>
+            </div>
+
+            {user.telegram_username || user.telegram_id ? (
+              <span className="text-[10px] font-black bg-emerald-500/20 border border-emerald-400 text-emerald-300 px-2 py-0.5 rounded-full">
+                Привязан
+              </span>
+            ) : null}
+          </div>
+
+          {user.telegram_username || user.telegram_id ? (
+            <div className="flex items-center justify-between bg-black/30 p-2 rounded-xl border border-sky-500/20 text-xs">
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-emerald-400" />
+                <span className="text-white font-bold text-xs">
+                  Аккаунт: <span className="text-sky-300 font-mono">{user.telegram_username || `ID: ${user.telegram_id}`}</span>
+                </span>
+              </div>
+              <button
+                onClick={handleUnlink}
+                className="text-[11px] font-black text-rose-300 hover:text-rose-200 bg-rose-950/40 border border-rose-500/30 px-2 py-1 rounded-lg active:scale-95"
+              >
+                Отвязать
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {!telegramCode ? (
+                <button
+                  disabled={isGeneratingTg}
+                  onClick={handleGenerateCode}
+                  className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-98 transition-all disabled:opacity-50"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  {isGeneratingTg ? 'Генерация кода...' : 'Привязать Telegram'}
+                </button>
+              ) : (
+                <div className="flex flex-col gap-2 bg-black/40 p-2.5 rounded-xl border border-sky-400/40">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-sky-200 uppercase font-bold">
+                      Ваш одноразовый код:
+                    </span>
+                    <span className="text-[10px] text-amber-300 font-bold">
+                      Действует 15 минут
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between bg-sky-950/70 border border-sky-400/60 rounded-xl px-3 py-2">
+                    <span className="font-mono font-black text-xl text-amber-300 tracking-widest">
+                      {telegramCode}
+                    </span>
+                    <button
+                      onClick={handleCopyCode}
+                      className="text-xs bg-sky-600 hover:bg-sky-500 text-white px-2.5 py-1 rounded-lg font-black flex items-center gap-1 active:scale-95"
+                    >
+                      {copiedTgCode ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copiedTgCode ? 'Скопировано' : 'Копировать'}
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={telegramDeepLink || `https://t.me/kirillgames_bot?start=${telegramCode}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2 px-2 bg-sky-500 hover:bg-sky-400 text-white rounded-xl font-black text-xs text-center flex items-center justify-center gap-1 shadow active:scale-98"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" /> Открыть @kirillgames_bot
+                    </a>
+                    <button
+                      onClick={async () => {
+                        soundManager.playClick();
+                        await refreshUser();
+                      }}
+                      className="py-2 px-3 bg-purple-900/80 hover:bg-purple-800 border border-purple-400/30 text-purple-200 rounded-xl font-black text-xs active:scale-95"
+                      title="Проверить статус"
+                    >
+                      Готово?
+                    </button>
+                  </div>
+
+                  <p className="text-[10px] text-sky-300/80 leading-tight text-center">
+                    Нажмите «Открыть бот» или отправьте боту команду <code className="text-white bg-white/10 px-1 rounded">/link {telegramCode}</code>
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

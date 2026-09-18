@@ -3,7 +3,7 @@ import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users } from 'lucide-react';
 import { LiveWinTicker } from './LiveWinTicker';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -166,6 +166,15 @@ const GAMES: GameItem[] = [
     tag: 'VIP Хит',
     color: 'from-red-600/50 via-rose-700/40 to-amber-900/60 border-rose-500/50',
   },
+  {
+    id: 'wheel',
+    name: 'Колесо Фортуны',
+    category: 'Dream Catcher',
+    emoji: '🎡',
+    description: 'Крути яркое колесо и сорви куш до x50!',
+    tag: 'ХИТ',
+    color: 'from-amber-500/50 via-red-600/40 to-purple-900/60 border-amber-500/50',
+  },
 ];
 
 export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
@@ -182,7 +191,7 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
           </p>
         </div>
         <div className="bg-purple-900/80 px-3 py-1 rounded-full border border-purple-400/40 text-[11px] font-black text-amber-300 flex items-center gap-1 shadow-md">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 16 ИГР
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 17 ИГР
         </div>
       </div>
 
@@ -198,14 +207,15 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
               soundManager.playClick();
               onSelectGame(game.id);
             }}
-            className="relative flex flex-col rounded-2xl bg-[#1b0736] border border-purple-500/30 overflow-hidden cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.97] shadow-lg group select-none"
+            className="relative flex flex-col rounded-2xl bg-[#1b0736] border border-purple-500/30 overflow-hidden cursor-pointer transition-all duration-150 active:scale-[0.97] shadow-lg group select-none"
+            style={{ contentVisibility: 'auto', containIntrinsicSize: '0 190px' }}
           >
-            {/* 1. Заблюреный баннер с иконкой */}
+            {/* 1. Атмосферный баннер с иконкой (без тяжелых блюров для максимального FPS) */}
             <div className={`relative w-full h-24 bg-gradient-to-br ${game.color} border-b border-white/10 flex flex-col items-center justify-center overflow-hidden`}>
-              {/* Blur backdrop and lighting */}
-              <div className="absolute inset-0 bg-black/25 backdrop-blur-[2px]" />
-              <div className="absolute -top-3 -right-3 w-16 h-16 rounded-full bg-white/15 blur-lg pointer-events-none" />
-              <div className="absolute -bottom-3 -left-3 w-14 h-14 rounded-full bg-black/40 blur-md pointer-events-none" />
+              {/* Background gradient accents */}
+              <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+              <div className="absolute -top-3 -right-3 w-16 h-16 rounded-full bg-white/10 pointer-events-none" />
+              <div className="absolute -bottom-3 -left-3 w-14 h-14 rounded-full bg-black/40 pointer-events-none" />
 
               {/* Tag Pill in corner */}
               {game.tag && (

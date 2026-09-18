@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import type { UserData } from '../services/api';
 import { soundManager } from '../audio/soundManager';
-import { formatTimeSpent } from '../utils/format';
+import { formatTimeSpent, formatCoins } from '../utils/format';
 import { Trophy, Coins, Flame, ChevronRight, RefreshCw } from 'lucide-react';
 
 interface LeaderboardViewProps {
@@ -105,19 +105,19 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({ onOpenUserProf
                 soundManager.playClick();
                 onOpenUserProfile(player);
               }}
-              className={`flex items-center justify-between p-3 rounded-2xl border backdrop-blur-md cursor-pointer transition-all duration-150 hover:scale-[1.01] active:scale-[0.98] ${
+              className={`flex items-center justify-between p-3 rounded-2xl border cursor-pointer transition-all duration-150 active:scale-[0.98] ${
                 isTop3
-                  ? 'bg-gradient-to-r from-amber-500/20 via-purple-900/40 to-amber-500/10 border-amber-400/50 shadow-sm'
-                  : 'bg-purple-950/60 border-purple-500/20 hover:border-purple-400/40'
+                  ? 'bg-gradient-to-r from-amber-500/20 via-[#20073b] to-amber-500/10 border-amber-400/50 shadow-sm'
+                  : 'bg-[#190632] border-purple-500/25 hover:border-purple-400/40'
               }`}
             >
               {/* Left: Rank & Avatar & Info */}
-              <div className="flex items-center gap-3 min-w-0">
-                <span className="font-black text-sm w-6 text-center text-amber-300 font-mono">
+              <div className="flex items-center gap-2.5 min-w-0 flex-1 mr-2">
+                <span className="font-black text-sm w-6 text-center text-amber-300 font-mono shrink-0">
                   {rankEmoji}
                 </span>
 
-                <div className="w-10 h-10 rounded-xl bg-purple-900/80 border border-purple-400/40 flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-purple-900/80 border border-purple-400/40 flex items-center justify-center overflow-hidden shrink-0">
                   {isCustomImage ? (
                     <img src={player.avatar} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
@@ -125,29 +125,29 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({ onOpenUserProf
                   )}
                 </div>
 
-                <div className="flex flex-col text-left min-w-0">
+                <div className="flex flex-col text-left min-w-0 truncate">
                   <span className="font-extrabold text-sm text-white truncate flex items-center gap-1">
                     {player.username}
-                    <span className="text-[9px] bg-purple-800 text-purple-200 px-1 py-0.2 rounded">
+                    <span className="text-[9px] bg-purple-800 text-purple-200 px-1 py-0.2 rounded shrink-0">
                       Ур.{player.level}
                     </span>
                   </span>
-                  <span className="text-[10px] text-purple-300 font-bold">
+                  <span className="text-[10px] text-purple-300 font-bold truncate">
                     В игре: {formatTimeSpent(player.time_spent_seconds)}
                   </span>
                 </div>
               </div>
 
               {/* Right: Coins / Win Amount & Arrow */}
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <div className="text-right">
-                  <div className="font-mono font-black text-amber-300 text-sm">
+              <div className="flex items-center gap-1.5 shrink-0 max-w-[48%]">
+                <div className="text-right truncate">
+                  <div className="font-mono font-black text-amber-300 text-xs sm:text-sm truncate">
                     {tab === 'coins'
-                      ? `${player.coins.toLocaleString('ru-RU')} 🪙`
-                      : `+${player.biggest_win.toLocaleString('ru-RU')} 🪙`}
+                      ? `${formatCoins(player.coins)} 🪙`
+                      : `+${formatCoins(player.biggest_win)} 🪙`}
                   </div>
                 </div>
-                <ChevronRight className="w-4 h-4 text-purple-400" />
+                <ChevronRight className="w-4 h-4 text-purple-400 shrink-0" />
               </div>
             </div>
           );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { soundManager } from '../audio/soundManager';
+import { formatCoins } from '../utils/format';
 import confetti from 'canvas-confetti';
 
 interface BigWinOverlayProps {
@@ -69,24 +70,24 @@ export const BigWinOverlay: React.FC<BigWinOverlayProps> = ({
   return (
     <div 
       onClick={onClose}
-      className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex flex-col items-center justify-center p-4 cursor-pointer animate-fadeIn"
+      className="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-4 cursor-pointer animate-fadeIn"
     >
       <div className="flex flex-col items-center gap-4 text-center max-w-sm animate-reel-land">
         <div className="text-2xl sm:text-3xl font-black text-amber-300 tracking-wider animate-bounce uppercase drop-shadow-[0_4px_10px_rgba(234,179,8,0.8)]">
           {title}
         </div>
 
-        <div className="text-6xl sm:text-7xl animate-pulse-glow my-2 select-none">
+        <div className="text-6xl sm:text-7xl my-2 select-none">
           👑
         </div>
 
-        <div className="bg-black/60 border-4 border-amber-400 rounded-3xl px-6 py-4 shadow-[0_0_30px_rgba(251,191,36,0.6)]">
+        <div className="bg-[#120623] border-4 border-amber-400 rounded-3xl px-6 py-4 shadow-[0_0_30px_rgba(251,191,36,0.6)]">
           <div className="text-xs font-bold text-amber-200 tracking-widest uppercase mb-1">
             Вы выиграли
           </div>
-          <div className="text-4xl sm:text-5xl font-mono font-black text-amber-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] flex items-center justify-center gap-2">
+          <div className="text-3xl sm:text-4xl font-mono font-black text-amber-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] flex items-center justify-center gap-2">
             <span>🪙</span>
-            <span>+{displayedCoins.toLocaleString('ru-RU')}</span>
+            <span>+{formatCoins(displayedCoins)}</span>
           </div>
         </div>
 

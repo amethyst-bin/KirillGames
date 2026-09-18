@@ -13,6 +13,8 @@ export interface UserData {
   time_spent_seconds: number;
   games_played: number;
   last_bonus_time: number;
+  telegram_id?: string | null;
+  telegram_username?: string | null;
   created_at?: string;
 }
 
@@ -113,5 +115,15 @@ export const api = {
     request<{ user: UserData }>('/api/games/record', {
       method: 'POST',
       body: JSON.stringify({ gameType, betAmount, winAmount, multiplier }),
+    }),
+
+  getTelegramLinkCode: () =>
+    request<{ code: string; botUsername: string; deepLink: string; expiresIn: number }>('/api/telegram/link-code', {
+      method: 'POST',
+    }),
+
+  unlinkTelegram: () =>
+    request<{ status: string }>('/api/telegram/unlink', {
+      method: 'POST',
     }),
 };

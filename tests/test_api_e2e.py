@@ -86,6 +86,7 @@ def main():
         ("thimbles", 100, 288, 2.88),
         ("limbo", 50, 500, 10.0),
         ("dragon_tiger", 100, 1100, 11.0),
+        ("wheel", 50, 2500, 50.0),
     ]
     for gtype, bet, win, mult in games:
         status, res = api_call("/api/games/record", "POST", {
@@ -97,19 +98,28 @@ def main():
         assert status == 200, f"Game record failed for {gtype}: {res}"
         print(f"PASS: Game {gtype} recorded: Bet={bet}, Win={win} -> Coins={res['user']['coins']}, BiggestWin={res['user']['biggest_win']}")
 
-    print("\n=== 7. Testing POST /api/profile/heartbeat ===")
+    print("\n=== 7. Testing POST /api/telegram/link-code & /api/telegram/unlink ===")
+    status, res = api_call("/api/telegram/link-code", "POST", token=token)
+    assert status == 200 and len(res.get("code", "")) == 6, f"Link code generation failed: {res}"
+    print(f"PASS: Generated Telegram link code: {res['code']} for bot: @{res.get('botUsername')}")
+
+    status, res = api_call("/api/telegram/unlink", "POST", token=token)
+    assert status == 200, f"Telegram unlink failed: {res}"
+    print("PASS: Telegram unlinked successfully.")
+
+    print("\n=== 8. Testing POST /api/profile/heartbeat ===")
     status, res = api_call("/api/profile/heartbeat", "POST", token=token)
     assert status == 200, f"Heartbeat failed: {res}"
     print("PASS: Heartbeat recorded 30s playtime.")
 
-    print("\n=== 8. Testing GET /api/leaderboard ===")
+    print("\n=== 9. Testing GET /api/leaderboard ===")
     status, res = api_call("/api/leaderboard", "GET")
     assert status == 200, f"Leaderboard failed: {res}"
     top_players = res["topCoins"]
     found = any(p["id"] == user_id for p in top_players)
     print(f"PASS: Leaderboard contains {len(top_players)} players. Test player present: {found}")
 
-    print("\n=== 9. Testing GET /api/profile/:id (Public Profile Inspection) ===")
+    print("\n=== 10. Testing GET /api/profile/:id (Public Profile Inspection) ===")
     status, res = api_call(f"/api/profile/{user_id}", "GET")
     assert status == 200 and res["user"]["username"] == test_username, f"Public profile failed: {res}"
     print(f"PASS: Public profile inspection works: {res['user']['username']} (coins: {res['user']['coins']}, time_spent: {res['user']['time_spent_seconds']}s)")

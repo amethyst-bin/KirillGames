@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { soundManager } from '../audio/soundManager';
+import { formatCoins } from '../utils/format';
 import { Volume2, VolumeX, Plus, Sparkles, Trophy, Music } from 'lucide-react';
 
 interface HeaderBarProps {
@@ -31,7 +32,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenProfile, onOpenBank,
   const isCustomImage = user.avatar && user.avatar.startsWith('data:image');
 
   return (
-    <header className="w-full flex items-center justify-between px-3 py-2 bg-purple-950/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-30 shadow-md">
+    <header className="w-full flex items-center justify-between px-3 py-2 bg-[#160429] border-b border-purple-500/30 sticky top-0 z-30 shadow-md">
       {/* Brand & User Profile Button */}
       <div 
         onClick={() => {
@@ -76,8 +77,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenProfile, onOpenBank,
           title="Получить бесплатные монеты"
         >
           <span className="text-base leading-none">🪙</span>
-          <span className="font-black text-amber-300 text-xs font-mono min-w-[2.5rem] text-right">
-            {user.coins.toLocaleString('ru-RU')}
+          <span className="font-black text-amber-300 text-xs font-mono min-w-[2.2rem] text-right">
+            {formatCoins(user.coins)}
           </span>
           <button className="w-5 h-5 rounded-full bg-amber-400 text-purple-950 flex items-center justify-center font-black">
             <Plus className="w-3.5 h-3.5 stroke-[3]" />

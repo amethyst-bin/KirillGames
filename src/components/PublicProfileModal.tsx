@@ -8,7 +8,7 @@ interface PublicProfileModalProps {
   onClose: () => void;
 }
 
-import { formatTimeSpent } from '../utils/format';
+import { formatTimeSpent, formatCoins } from '../utils/format';
 
 export const PublicProfileModal: React.FC<PublicProfileModalProps> = ({ user, onClose }) => {
   if (!user) return null;
@@ -16,8 +16,8 @@ export const PublicProfileModal: React.FC<PublicProfileModalProps> = ({ user, on
   const isCustomImage = user.avatar && user.avatar.startsWith('data:image');
 
   return (
-    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="relative w-full max-w-sm rounded-3xl bg-purple-950/90 border-2 border-amber-400/60 p-5 shadow-2xl flex flex-col items-center gap-4 text-center animate-reel-land">
+    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+      <div className="relative w-full max-w-sm rounded-3xl bg-[#160429] border-2 border-amber-400/60 p-5 shadow-2xl flex flex-col items-center gap-4 text-center animate-reel-land">
         {/* Close Button */}
         <button
           onClick={() => {
@@ -65,8 +65,8 @@ export const PublicProfileModal: React.FC<PublicProfileModalProps> = ({ user, on
             <div className="flex items-center gap-1 text-xs text-amber-300 font-bold mb-1">
               <Coins className="w-4 h-4 text-amber-400" /> Баланс
             </div>
-            <span className="font-mono font-black text-white text-base">
-              {user.coins.toLocaleString('ru-RU')} 🪙
+            <span className="font-mono font-black text-white text-base truncate max-w-full">
+              {formatCoins(user.coins)} 🪙
             </span>
           </div>
 
@@ -75,8 +75,8 @@ export const PublicProfileModal: React.FC<PublicProfileModalProps> = ({ user, on
             <div className="flex items-center gap-1 text-xs text-emerald-300 font-bold mb-1">
               <Trophy className="w-4 h-4 text-emerald-400" /> Рекорд
             </div>
-            <span className="font-mono font-black text-emerald-400 text-base">
-              +{user.biggest_win.toLocaleString('ru-RU')}
+            <span className="font-mono font-black text-emerald-400 text-base truncate max-w-full">
+              +{formatCoins(user.biggest_win)}
             </span>
           </div>
 

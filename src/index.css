@@ -11,7 +11,7 @@
   html, body {
     margin: 0;
     padding: 0;
-    background: radial-gradient(circle at 50% 20%, #290f48 0%, #150626 60%, #0a0214 100%);
+    background: #0d0218;
     color: #ffffff;
     font-family: 'Fredoka', 'Nunito', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
@@ -19,8 +19,13 @@
     overscroll-behavior: none;
     -webkit-font-smoothing: antialiased;
     -webkit-touch-callout: none;
-    transform: translateZ(0);
   }
+}
+
+/* Accelerated smooth touch scrolling */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 /* Safe area padding helper for modern notches & status bars */

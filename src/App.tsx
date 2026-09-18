@@ -28,6 +28,7 @@ import { BaccaratGame } from './games/BaccaratGame';
 import { ThimblesGame } from './games/ThimblesGame';
 import { LimboGame } from './games/LimboGame';
 import { DragonTigerGame } from './games/DragonTigerGame';
+import { WheelOfFortuneGame } from './games/WheelOfFortuneGame';
 
 import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
@@ -68,7 +69,7 @@ function MainApp() {
       />
 
       {/* Main Content Area: in games scrolling is disabled, in catalog/tabs scrolling is enabled */}
-      <main className={`flex-1 w-full flex flex-col justify-start py-2 ${activeTab === 'game' ? 'overflow-hidden' : 'overflow-y-auto pb-28'} no-scrollbar`}>
+      <main className={`flex-1 w-full flex flex-col justify-start py-2 ${activeTab === 'game' ? 'overflow-hidden' : 'overflow-y-auto pb-28 smooth-scroll'} no-scrollbar`}>
         {/* Navigation Tabs */}
         {activeTab === 'catalog' && (
           <GameCatalog onSelectGame={handleSelectGame} />
@@ -136,6 +137,9 @@ function MainApp() {
             )}
             {activeGame === 'dragontiger' && (
               <DragonTigerGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'wheel' && (
+              <WheelOfFortuneGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
           </>
         )}

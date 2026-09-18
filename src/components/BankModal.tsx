@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
 import { soundManager } from '../audio/soundManager';
+import { formatCoins } from '../utils/format';
 import { Gift, Sparkles, Coins, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -75,7 +76,7 @@ export const BankModal: React.FC = () => {
           </h2>
         </div>
         <span className="font-mono font-black text-amber-300 text-sm bg-purple-900/60 px-3 py-1 rounded-full border border-purple-400/30">
-          {user.coins.toLocaleString('ru-RU')} 🪙
+          {formatCoins(user.coins)} 🪙
         </span>
       </div>
 
