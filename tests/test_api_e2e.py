@@ -88,6 +88,7 @@ def main():
         ("dragon_tiger", 100, 1100, 11.0),
         ("wheel", 50, 2500, 50.0),
         ("penalty", 100, 3072, 30.72),
+        ("scratch", 100, 50000, 500.0),
     ]
     for gtype, bet, win, mult in games:
         status, res = api_call("/api/games/record", "POST", {

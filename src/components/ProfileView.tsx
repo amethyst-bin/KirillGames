@@ -4,7 +4,7 @@ import { AVATARS } from '../constants/gameConfig';
 import { soundManager } from '../audio/soundManager';
 import { formatTimeSpent, formatCoins } from '../utils/format';
 import { api } from '../services/api';
-import { Upload, LogIn, LogOut, Clock, Trophy, Dices, Coins, Shield, Send, Copy, Check, ExternalLink } from 'lucide-react';
+import { Upload, Sparkles, LogOut, Clock, Trophy, Dices, Coins, Shield, Send, Copy, Check, ExternalLink } from 'lucide-react';
 
 export const ProfileView: React.FC = () => {
   const { user, login, register, logout, updateUser, refreshUser } = useAuth();
@@ -25,6 +25,12 @@ export const ProfileView: React.FC = () => {
   const [telegramDeepLink, setTelegramDeepLink] = useState<string | null>(null);
   const [isGeneratingTg, setIsGeneratingTg] = useState(false);
   const [copiedTgCode, setCopiedTgCode] = useState(false);
+  const [profileToast, setProfileToast] = useState<{ msg: string; type: 'error' | 'success' } | null>(null);
+
+  const showToast = (msg: string, type: 'error' | 'success' = 'error') => {
+    setProfileToast({ msg, type });
+    setTimeout(() => setProfileToast(null), 3500);
+  };
 
   if (!user) return null;
 
@@ -36,7 +42,7 @@ export const ProfileView: React.FC = () => {
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
-      alert('Размер картинки не должен превышать 5 МБ!');
+      showToast('Размер картинки не должен превышать 5 МБ!', 'error');
       return;
     }
 
@@ -46,8 +52,10 @@ export const ProfileView: React.FC = () => {
       try {
         await updateUser({ avatar: base64 });
         soundManager.playCoin();
+        showToast('Аватар успешно обновлён!', 'success');
       } catch (err) {
         console.error('Failed to update avatar:', err);
+        showToast('Не удалось загрузить аватар', 'error');
       }
     };
     reader.readAsDataURL(file);
@@ -61,9 +69,10 @@ export const ProfileView: React.FC = () => {
       await updateUser({ username: editName.trim() });
       soundManager.playClick();
       setSaveSuccess(true);
+      showToast('Имя профиля успешно сохранено!', 'success');
       setTimeout(() => setSaveSuccess(false), 2000);
     } catch (err: unknown) {
-      alert((err as Error).message || 'Ошибка сохранения');
+      showToast((err as Error).message || 'Ошибка сохранения', 'error');
     } finally {
       setIsSaving(false);
     }
@@ -78,7 +87,7 @@ export const ProfileView: React.FC = () => {
       setTelegramCode(res.code);
       setTelegramDeepLink(res.deepLink);
     } catch (err: unknown) {
-      alert((err as Error).message || 'Ошибка генерации кода');
+      showToast((err as Error).message || 'Ошибка генерации кода', 'error');
     } finally {
       setIsGeneratingTg(false);
     }
@@ -104,8 +113,9 @@ export const ProfileView: React.FC = () => {
       await refreshUser();
       setTelegramCode(null);
       setTelegramDeepLink(null);
+      showToast('Telegram успешно отвязан', 'success');
     } catch (err: unknown) {
-      alert((err as Error).message || 'Ошибка отвязки');
+      showToast((err as Error).message || 'Ошибка отвязки', 'error');
     }
   };
 
@@ -144,7 +154,7 @@ export const ProfileView: React.FC = () => {
             }}
             className="cartoon-btn btn-gold px-3 py-1.5 text-xs font-black flex items-center gap-1"
           >
-            <LogIn className="w-3.5 h-3.5" /> Вход / Регистрация
+            <Sparkles className="w-3.5 h-3.5" /> Зарегистрироваться
           </button>
         ) : (
           <button
@@ -152,12 +162,25 @@ export const ProfileView: React.FC = () => {
               soundManager.playClick();
               logout();
             }}
-            className="text-xs text-red-300 hover:text-red-200 font-bold flex items-center gap-1 bg-red-950/40 px-3 py-1 rounded-xl border border-red-500/30 active:scale-95"
+            className="px-3 py-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900/80 border border-rose-600/40 text-rose-300 font-bold text-xs flex items-center gap-1 active:scale-95 transition-all"
           >
             <LogOut className="w-3.5 h-3.5" /> Выйти
           </button>
         )}
       </div>
+
+      {/* Floating Notification Toast */}
+      {profileToast && (
+        <div
+          className={`p-2.5 rounded-2xl text-xs font-bold text-center border shadow-lg animate-fadeIn ${
+            profileToast.type === 'success'
+              ? 'bg-emerald-950/90 border-emerald-500 text-emerald-200'
+              : 'bg-rose-950/90 border-rose-500 text-rose-200'
+          }`}
+        >
+          {profileToast.msg}
+        </div>
+      )}
 
       {/* Profile Card */}
       <div className="relative w-full rounded-3xl bg-purple-950/80 border-2 border-purple-400/40 p-4 shadow-xl flex flex-col items-center gap-4 text-center">
@@ -464,14 +487,14 @@ export const ProfileView: React.FC = () => {
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
-                  onClick={() => alert('Серверная заготовка Google OAuth готова! Привяжите Google Client ID в настройках сервера.')}
+                  onClick={() => showToast('Google OAuth в разработке! Доступен стандартный вход и регистрация.', 'error')}
                   className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-bold text-white active:scale-95 transition-all"
                 >
                   <span>🌐</span> Google
                 </button>
                 <button
                   type="button"
-                  onClick={() => alert('Серверная заготовка Discord OAuth готова! Привяжите Discord Client ID в настройках сервера.')}
+                  onClick={() => showToast('Discord OAuth в разработке! Доступен стандартный вход и регистрация.', 'error')}
                   className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-[#5865F2]/30 hover:bg-[#5865F2]/40 border border-[#5865F2]/50 text-xs font-bold text-white active:scale-95 transition-all"
                 >
                   <span>🎮</span> Discord

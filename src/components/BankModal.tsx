@@ -14,6 +14,7 @@ export const BankModal: React.FC = () => {
   const [openedReward, setOpenedReward] = useState<number | null>(null);
   const [tapCount, setTapCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -33,6 +34,7 @@ export const BankModal: React.FC = () => {
   const handleOpenChest = async () => {
     if (timeLeft > 0 || isLoading) return;
     setIsLoading(true);
+    setErrorMsg(null);
     try {
       const res = await api.claimBonus();
       setOpenedReward(res.reward);
@@ -41,7 +43,9 @@ export const BankModal: React.FC = () => {
       await refreshUser();
       setTimeout(() => setOpenedReward(null), 3000);
     } catch (err: unknown) {
-      alert((err as Error).message || 'Ошибка открытия сундука');
+      soundManager.playReelStop(0);
+      setErrorMsg((err as Error).message || 'Ошибка открытия сундука');
+      setTimeout(() => setErrorMsg(null), 4000);
     } finally {
       setIsLoading(false);
     }
@@ -49,12 +53,15 @@ export const BankModal: React.FC = () => {
 
   const handleClaimFaucet = async () => {
     setIsLoading(true);
+    setErrorMsg(null);
     try {
       await api.claimFaucet();
       soundManager.playBigWin();
       await refreshUser();
     } catch (err: unknown) {
-      alert((err as Error).message || 'Ошибка получения помощи');
+      soundManager.playReelStop(0);
+      setErrorMsg((err as Error).message || 'Ошибка получения помощи');
+      setTimeout(() => setErrorMsg(null), 4000);
     } finally {
       setIsLoading(false);
     }
@@ -79,6 +86,12 @@ export const BankModal: React.FC = () => {
           {formatCoins(user.coins)} 🪙
         </span>
       </div>
+
+      {errorMsg && (
+        <div className="bg-rose-950/90 border border-rose-500 text-rose-200 text-xs font-bold p-3 rounded-2xl text-center shadow-lg animate-pulse">
+          {errorMsg}
+        </div>
+      )}
 
       {/* Lucky Chest Card */}
       <div className="rounded-3xl bg-gradient-to-b from-purple-900/80 to-purple-950/90 border-2 border-amber-400/60 p-5 shadow-xl flex flex-col items-center gap-3 text-center">

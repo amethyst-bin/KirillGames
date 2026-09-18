@@ -161,7 +161,8 @@ export const BlackjackGame: React.FC<BlackjackGameProps> = ({ onBack, onOpenBank
 
   const handleDouble = () => {
     if (!user || user.coins < bet * 2) {
-      alert('Недостаточно монет для удвоения!');
+      soundManager.playReelStop(0);
+      setResultMessage('⚠️ Недостаточно монет для удвоения!');
       return;
     }
     soundManager.playClick();

@@ -30,6 +30,7 @@ import { LimboGame } from './games/LimboGame';
 import { DragonTigerGame } from './games/DragonTigerGame';
 import { WheelOfFortuneGame } from './games/WheelOfFortuneGame';
 import { PenaltyGame } from './games/PenaltyGame';
+import { ScratchGame } from './games/ScratchGame';
 
 import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
@@ -144,6 +145,9 @@ function MainApp() {
             )}
             {activeGame === 'penalty' && (
               <PenaltyGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'scratch' && (
+              <ScratchGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
           </>
         )}

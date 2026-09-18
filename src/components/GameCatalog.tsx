@@ -3,7 +3,7 @@ import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users } from 'lucide-react';
 import { LiveWinTicker } from './LiveWinTicker';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty' | 'scratch';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -184,6 +184,15 @@ const GAMES: GameItem[] = [
     tag: 'ХИТ',
     color: 'from-emerald-600/50 via-green-700/40 to-slate-900/60 border-emerald-500/50',
   },
+  {
+    id: 'scratch',
+    name: 'Скретч-Лотерея',
+    category: 'Мгновенный Билет',
+    emoji: '🎫',
+    description: 'Сотри 9 ячеек и забери джекпот до x500!',
+    tag: 'ЛОТЕРЕЯ',
+    color: 'from-amber-600/50 via-yellow-700/40 to-purple-950/60 border-amber-500/50',
+  },
 ];
 
 export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
@@ -200,7 +209,7 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame }) => {
           </p>
         </div>
         <div className="bg-purple-900/80 px-3 py-1 rounded-full border border-purple-400/40 text-[11px] font-black text-amber-300 flex items-center gap-1 shadow-md">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 18 ИГР
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 19 ИГР
         </div>
       </div>
 
