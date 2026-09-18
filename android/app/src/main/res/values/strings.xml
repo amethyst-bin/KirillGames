@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Lucky Casino</string>
-    <string name="title_activity_main">Lucky Casino</string>
+    <string name="app_name">KirillGames</string>
+    <string name="title_activity_main">KirillGames</string>
     <string name="package_name">com.kirillgames.casino</string>
     <string name="custom_url_scheme">com.kirillgames.casino</string>
 </resources>

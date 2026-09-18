@@ -11,126 +11,111 @@
   body {
     margin: 0;
     padding: 0;
-    background: radial-gradient(circle at 50% 30%, #311452 0%, #160829 70%, #0c0418 100%);
+    background: radial-gradient(circle at 50% 20%, #290f48 0%, #150626 60%, #0a0214 100%);
     color: #ffffff;
     font-family: 'Fredoka', 'Nunito', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transform: translateZ(0);
   }
 }
 
-/* Cartoon 3D Button Utility Classes */
+/* Safe area padding helper for modern notches & status bars */
+.safe-top-inset {
+  padding-top: max(env(safe-area-inset-top, 0px), 36px);
+}
+
+.safe-bottom-inset {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 90px);
+}
+
+/* Modern Cartoon 3D Button Utility Classes (Without laggy drop-shadows) */
 .cartoon-btn {
   position: relative;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-radius: 1.25rem;
-  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 1rem;
+  transition: transform 0.1s ease, filter 0.1s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .cartoon-btn:active:not(:disabled) {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(2px) scale(0.98);
 }
 
 .cartoon-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
-  filter: grayscale(0.6);
 }
 
 /* Green Spin Button */
 .btn-spin {
-  background: linear-gradient(180deg, #4ade80 0%, #22c55e 50%, #16a34a 100%);
-  border: 3px solid #bbf7d0;
-  box-shadow: 0 6px 0 0 #14532d, 0 10px 20px rgba(34, 197, 94, 0.4);
+  background: linear-gradient(180deg, #34d399 0%, #10b981 60%, #059669 100%);
+  border: 2px solid #a7f3d0;
+  box-shadow: 0 4px 0 0 #064e3b;
   color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 /* Gold / Yellow Button */
 .btn-gold {
-  background: linear-gradient(180deg, #fde047 0%, #eab308 50%, #ca8a04 100%);
-  border: 3px solid #fef08a;
-  box-shadow: 0 5px 0 0 #713f12, 0 8px 15px rgba(234, 179, 8, 0.35);
+  background: linear-gradient(180deg, #fde047 0%, #eab308 60%, #ca8a04 100%);
+  border: 2px solid #fef08a;
+  box-shadow: 0 4px 0 0 #713f12;
   color: #422006;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 /* Purple / Violet Button */
 .btn-purple {
-  background: linear-gradient(180deg, #c084fc 0%, #9333ea 50%, #7e22ce 100%);
-  border: 3px solid #e9d5ff;
-  box-shadow: 0 5px 0 0 #3b0764, 0 8px 15px rgba(147, 51, 234, 0.35);
+  background: linear-gradient(180deg, #c084fc 0%, #9333ea 60%, #7e22ce 100%);
+  border: 2px solid #e9d5ff;
+  box-shadow: 0 4px 0 0 #3b0764;
   color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-/* Red / Coral Button */
+/* Red Button */
 .btn-red {
-  background: linear-gradient(180deg, #f87171 0%, #ef4444 50%, #dc2626 100%);
-  border: 3px solid #fecaca;
-  box-shadow: 0 5px 0 0 #7f1d1d, 0 8px 15px rgba(239, 68, 68, 0.35);
+  background: linear-gradient(180deg, #f87171 0%, #ef4444 60%, #dc2626 100%);
+  border: 2px solid #fecaca;
+  box-shadow: 0 4px 0 0 #7f1d1d;
   color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-/* Blue Button */
-.btn-blue {
-  background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
-  border: 3px solid #bfdbfe;
-  box-shadow: 0 5px 0 0 #1e3a8a, 0 8px 15px rgba(59, 130, 246, 0.35);
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-/* Candy Glass Card */
-.candy-card {
-  background: rgba(43, 20, 77, 0.85);
-  border: 3px solid #ff7ee2;
-  box-shadow: 0 8px 0 0 #6d1b7b, 0 15px 30px rgba(0, 0, 0, 0.5), inset 0 2px 6px rgba(255, 255, 255, 0.2);
-  border-radius: 1.75rem;
-}
-
-/* Gold Frame Card */
-.gold-frame {
-  background: linear-gradient(180deg, #421c6e 0%, #290f48 100%);
-  border: 4px solid #fcd34d;
-  box-shadow: 0 8px 0 0 #92400e, 0 12px 25px rgba(0, 0, 0, 0.6), inset 0 2px 10px rgba(254, 240, 138, 0.4);
-  border-radius: 1.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 /* Animations */
-@keyframes coinBounce {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-8px) scale(1.08); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-coin-bounce {
-  animation: coinBounce 2s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.6)); }
-  50% { filter: drop-shadow(0 0 20px rgba(250, 204, 21, 1)); }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 1.5s ease-in-out infinite;
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
 }
 
 @keyframes reelBounce {
-  0% { transform: translateY(-30px); }
-  60% { transform: translateY(8px); }
-  85% { transform: translateY(-3px); }
+  0% { transform: translateY(-15px); }
+  70% { transform: translateY(3px); }
   100% { transform: translateY(0); }
 }
 
 .animate-reel-land {
-  animation: reelBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation: reelBounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

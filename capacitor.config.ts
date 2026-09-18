@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.kirillgames.casino',
-  appName: 'Lucky Casino',
+  appName: 'KirillGames',
   webDir: 'dist',
   server: {
     androidScheme: 'https'

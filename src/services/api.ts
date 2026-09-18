@@ -1,0 +1,109 @@
+export const API_BASE_URL = 'http://83.143.112.6:42';
+export const WS_URL = 'ws://83.143.112.6:42/ws';
+
+export interface UserData {
+  id: number;
+  username: string;
+  avatar: string;
+  coins: number;
+  level: number;
+  xp: number;
+  xp_to_next: number;
+  biggest_win: number;
+  time_spent_seconds: number;
+  games_played: number;
+  last_bonus_time: number;
+  created_at?: string;
+}
+
+export function getToken(): string | null {
+  return localStorage.getItem('kirillgames_token');
+}
+
+export function setToken(token: string) {
+  localStorage.setItem('kirillgames_token', token);
+}
+
+export function clearToken() {
+  localStorage.removeItem('kirillgames_token');
+}
+
+async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const token = getToken();
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...(options.headers as Record<string, string> || {}),
+  };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const res = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
+    headers,
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Ошибка запроса к серверу');
+  }
+
+  return data as T;
+}
+
+export const api = {
+  health: () => request<{ status: string }>('/api/health'),
+
+  register: (username: string, password: string) =>
+    request<{ token: string; user: UserData }>('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    }),
+
+  login: (username: string, password: string) =>
+    request<{ token: string; user: UserData }>('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    }),
+
+  guestLogin: () =>
+    request<{ token: string; user: UserData }>('/api/auth/guest', {
+      method: 'POST',
+    }),
+
+  getMe: () => request<{ user: UserData }>('/api/profile/me'),
+
+  updateProfile: (data: { username?: string; avatar?: string }) =>
+    request<{ user: UserData }>('/api/profile/update', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  getUserProfile: (userId: number) =>
+    request<{ user: UserData }>(`/api/profile/${userId}`),
+
+  sendHeartbeat: () =>
+    request<{ status: string }>('/api/profile/heartbeat', {
+      method: 'POST',
+    }),
+
+  getLeaderboard: () =>
+    request<{ topCoins: UserData[]; topWinners: UserData[] }>('/api/leaderboard'),
+
+  claimBonus: () =>
+    request<{ reward: number; user: UserData }>('/api/economy/bonus', {
+      method: 'POST',
+    }),
+
+  claimFaucet: () =>
+    request<{ grant: number; user: UserData }>('/api/economy/faucet', {
+      method: 'POST',
+    }),
+
+  recordGame: (gameType: string, betAmount: number, winAmount: number, multiplier: number) =>
+    request<{ user: UserData }>('/api/games/record', {
+      method: 'POST',
+      body: JSON.stringify({ gameType, betAmount, winAmount, multiplier }),
+    }),
+};
