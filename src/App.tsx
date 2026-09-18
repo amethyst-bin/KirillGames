@@ -32,6 +32,7 @@ import { WheelOfFortuneGame } from './games/WheelOfFortuneGame';
 import { PenaltyGame } from './games/PenaltyGame';
 import { ScratchGame } from './games/ScratchGame';
 import { SicBoGame } from './games/SicBoGame';
+import { SweetRushGame } from './games/SweetRushGame';
 
 import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
@@ -152,6 +153,9 @@ function MainApp() {
             )}
             {activeGame === 'sicbo' && (
               <SicBoGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'sweetrush' && (
+              <SweetRushGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
           </>
         )}
