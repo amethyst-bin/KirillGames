@@ -36,7 +36,7 @@ export function compareVersions(v1: string, v2: string): number {
  */
 export async function checkAppUpdate(): Promise<ReleaseInfo> {
   try {
-    const res = await fetch('https://api.github.com/repos/nulis00/KirillGames/releases/latest', {
+    const res = await fetch('https://api.github.com/repos/amethyst-bin/KirillGames/releases/latest', {
       headers: {
         Accept: 'application/vnd.github.v3+json',
       },
