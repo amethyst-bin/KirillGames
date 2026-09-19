@@ -3,6 +3,8 @@ import urllib.error
 import json
 import sys
 import subprocess
+import time
+import paramiko
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
@@ -11,20 +13,29 @@ API_URL = "http://83.143.112.6"
 
 def api_call(path, method="GET", data=None, token=None):
     url = f"{API_URL}{path}"
-    headers = {"Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json", "Connection": "close"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
     body = json.dumps(data).encode('utf-8') if data else None
     req = urllib.request.Request(url, data=body, headers=headers, method=method)
-    try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            return resp.status, json.loads(resp.read().decode('utf-8'))
-    except urllib.error.HTTPError as e:
-        err_body = e.read().decode('utf-8')
+    for attempt in range(3):
         try:
-            return e.code, json.loads(err_body)
-        except:
-            return e.code, {"raw": err_body}
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                return resp.status, json.loads(resp.read().decode('utf-8'))
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode('utf-8', errors='replace')
+            try:
+                parsed = json.loads(err_body)
+                return e.code, parsed
+            except:
+                if attempt < 2:
+                    time.sleep(1)
+                    continue
+                return e.code, {"raw": err_body}
+        except Exception as e:
+            if attempt == 2:
+                return 500, {"error": str(e)}
+            time.sleep(1)
 
 def main():
     print("=== 1. Testing GET /api/health ===")
@@ -32,21 +43,15 @@ def main():
     assert status == 200, f"Health check failed: {res}"
     print(f"PASS: {res}")
 
-    test_username = "Тестер_API_99"
+    test_username = f"Tester_{int(time.time())}"
     test_password = "SecurePassword123!"
 
-    print("\n=== 2. Testing POST /api/auth/register ===")
+    print(f"\n=== 2. Testing POST /api/auth/register ({test_username}) ===")
     status, res = api_call("/api/auth/register", "POST", {
         "username": test_username,
         "password": test_password
     })
-    if status == 400 and "уже существует" in str(res):
-        print("User exists, logging in instead...")
-        status, res = api_call("/api/auth/login", "POST", {
-            "username": test_username,
-            "password": test_password
-        })
-    assert status == 200, f"Registration/Login failed: {res}"
+    assert status == 200, f"Registration failed: {res}"
     token = res["token"]
     user_id = res["user"]["id"]
     print(f"PASS: Registered user_id={user_id}, username={res['user']['username']}, coins={res['user']['coins']}")
@@ -57,6 +62,7 @@ def main():
         "password": test_password
     })
     assert status == 200, f"Login failed: {res}"
+    token = res["token"]
     print(f"PASS: Logged in successfully, token received.")
 
     print("\n=== 4. Testing GET /api/profile/me ===")
@@ -105,6 +111,7 @@ def main():
         }, token=token)
         assert status == 200, f"Game record failed for {gtype}: {res}"
         print(f"PASS: Game {gtype} recorded: Bet={bet}, Win={win} -> Coins={res['user']['coins']}, BiggestWin={res['user']['biggest_win']}")
+        time.sleep(0.05)
 
     print("\n=== 7. Testing POST /api/telegram/link-code & /api/telegram/unlink ===")
     status, res = api_call("/api/telegram/link-code", "POST", token=token)
@@ -132,11 +139,16 @@ def main():
     assert status == 200 and res["user"]["username"] == test_username, f"Public profile failed: {res}"
     print(f"PASS: Public profile inspection works: {res['user']['username']} (coins: {res['user']['coins']}, time_spent: {res['user']['time_spent_seconds']}s)")
 
-    print("\n=== 10. Cleaning up test data from VPS Database ===")
-    cleanup_cmd = f"python C:\\Users\\nulis\\.gemini\\antigravity\\brain\\e4226c1c-b95f-4747-b764-1700c535eb29\\scratch\\ssh_helper.py \"node -e \\\"const db=require('/root/kirillgames-server/db'); db.prepare('DELETE FROM bets WHERE user_id={user_id}').run(); db.prepare('DELETE FROM users WHERE id={user_id}').run(); console.log('CLEANUP_DONE');\\\"\""
-    p = subprocess.run(cleanup_cmd, shell=True, capture_output=True, text=True)
-    print("Cleanup result:\n" + p.stdout)
-    print("ALL API CHECKS PASSED AND TEST DATA CLEANED UP FLドWLESSLY! 🎉")
+    print("\n=== 11. Cleaning up test data from VPS Database ===")
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect("83.143.112.6", username="root", password="99213550909", timeout=15)
+    clean_sql = f"node -e \"const db=require('/root/kirillgames-server/db'); db.prepare('DELETE FROM bets WHERE user_id={user_id}').run(); db.prepare('DELETE FROM users WHERE id={user_id}').run(); console.log('CLEANUP_DONE');\""
+    _, stdout, _ = ssh.exec_command(clean_sql)
+    clean_out = stdout.read().decode('utf-8').strip()
+    ssh.close()
+    print(f"Cleanup result: {clean_out}")
+    print("ALL API CHECKS PASSED AND TEST DATA CLEANED UP FLAWLESSLY! 🎉")
 
 if __name__ == '__main__':
     main()

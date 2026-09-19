@@ -36,8 +36,8 @@ const GAMES: GameItem[] = [
     name: 'Видео-Покер',
     category: 'Jacks or Better',
     emoji: '👑',
-    description: 'Классический покер, держи комбинации!',
-    tag: 'Покер',
+    description: '5 замен карт! Собирай комбинации до x250!',
+    tag: '5 Замен',
     color: 'from-blue-600/50 via-indigo-700/40 to-purple-900/60 border-blue-500/50',
   },
   {
