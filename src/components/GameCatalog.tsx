@@ -3,7 +3,7 @@ import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users, Gift } from 'lucide-react';
 import { LiveWinTicker } from './LiveWinTicker';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty' | 'scratch' | 'sicbo' | 'sweetrush' | 'battleship' | 'rps' | 'holdem' | 'pharaoh';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty' | 'scratch' | 'sicbo' | 'sweetrush' | 'battleship' | 'rps' | 'holdem' | 'pharaoh' | 'safe';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -245,8 +245,17 @@ const GAMES: GameItem[] = [
     category: 'Книга Ра 5x3',
     emoji: '📖',
     description: '10 линий, 10 фриспинов и расширяющийся символ!',
-    tag: 'ТОП НОВИНКА',
+    tag: 'ТОП',
     color: 'from-amber-600/50 via-yellow-700/40 to-stone-950/60 border-amber-500/50',
+  },
+  {
+    id: 'safe',
+    name: 'Взлом Сейфа',
+    category: 'Хакер Кода',
+    emoji: '🔐',
+    description: 'Подбирай цифровой шифр сейфа и сорви до x100!',
+    tag: 'НОВИНКА',
+    color: 'from-slate-700/50 via-zinc-800/40 to-amber-950/60 border-slate-400/50',
   },
 ];
 
@@ -264,7 +273,7 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame, onOpenDa
           </p>
         </div>
         <div className="bg-purple-900/80 px-3 py-1 rounded-full border border-purple-400/40 text-[11px] font-black text-amber-300 flex items-center gap-1 shadow-md">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 25 ИГР
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 26 ИГР
         </div>
       </div>
 

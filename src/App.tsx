@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { HeaderBar } from './components/HeaderBar';
 import { LiquidGlassNavbar } from './components/LiquidGlassNavbar';
@@ -9,6 +9,8 @@ import { LeaderboardView } from './components/LeaderboardView';
 import { ProfileView } from './components/ProfileView';
 import { BankModal } from './components/BankModal';
 import { PublicProfileModal } from './components/PublicProfileModal';
+import { AppUpdateModal } from './components/AppUpdateModal';
+import { checkAppUpdate, type ReleaseInfo } from './services/updateService';
 import type { UserData } from './services/api';
 
 // Games
@@ -37,6 +39,7 @@ import { BattleshipGame } from './games/BattleshipGame';
 import { RPSGame } from './games/RPSGame';
 import { CasinoHoldemGame } from './games/CasinoHoldemGame';
 import { PharaohGame } from './games/PharaohGame';
+import { SafeGame } from './games/SafeGame';
 
 import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
@@ -49,6 +52,15 @@ function MainApp() {
   const [inspectedUser, setInspectedUser] = useState<UserData | null>(null);
   const [showQuests, setShowQuests] = useState(false);
   const [showDailyStreak, setShowDailyStreak] = useState(false);
+  const [updateInfo, setUpdateInfo] = useState<ReleaseInfo | null>(null);
+
+  useEffect(() => {
+    checkAppUpdate().then((info) => {
+      if (info.hasUpdate) {
+        setUpdateInfo(info);
+      }
+    });
+  }, []);
 
   const handleSelectGame = (gameId: GameId) => {
     setActiveGame(gameId);
@@ -181,6 +193,9 @@ function MainApp() {
             {activeGame === 'pharaoh' && (
               <PharaohGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
+            {activeGame === 'safe' && (
+              <SafeGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
           </>
         )}
       </main>
@@ -207,6 +222,14 @@ function MainApp() {
       {/* Daily Streak Calendar Modal */}
       {showDailyStreak && (
         <DailyStreakModal onClose={() => setShowDailyStreak(false)} />
+      )}
+
+      {/* App Auto-Update Modal */}
+      {updateInfo && updateInfo.hasUpdate && (
+        <AppUpdateModal
+          info={updateInfo}
+          onClose={() => setUpdateInfo(null)}
+        />
       )}
 
       {/* Onboarding Login / Register Modal */}

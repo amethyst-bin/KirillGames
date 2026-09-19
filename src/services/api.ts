@@ -1,6 +1,15 @@
 export const API_BASE_URL = 'http://83.143.112.6';
 export const WS_URL = 'ws://83.143.112.6/ws';
 
+export interface RecentBet {
+  id: number;
+  game_type: string;
+  bet_amount: number;
+  win_amount: number;
+  multiplier: number;
+  created_at: string;
+}
+
 export interface UserData {
   id: number;
   username: string;
@@ -16,6 +25,12 @@ export interface UserData {
   telegram_id?: string | null;
   telegram_username?: string | null;
   created_at?: string;
+  wins_count?: number;
+  win_rate?: number;
+  total_wagered?: number;
+  total_won?: number;
+  net_profit?: number;
+  recent_bets?: RecentBet[];
 }
 
 export function getToken(): string | null {

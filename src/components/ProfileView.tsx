@@ -4,7 +4,12 @@ import { AVATARS } from '../constants/gameConfig';
 import { soundManager } from '../audio/soundManager';
 import { formatTimeSpent, formatCoins } from '../utils/format';
 import { api } from '../services/api';
-import { Upload, Sparkles, LogOut, Clock, Trophy, Dices, Coins, Shield, Send, Copy, Check, ExternalLink } from 'lucide-react';
+import { 
+  Upload, Sparkles, LogOut, Clock, Trophy, Dices, Coins, 
+  Shield, Send, Copy, Check, ExternalLink, Download, RefreshCw, Target 
+} from 'lucide-react';
+import { checkAppUpdate, CURRENT_APP_VERSION, type ReleaseInfo } from '../services/updateService';
+import { AppUpdateModal } from './AppUpdateModal';
 
 export const ProfileView: React.FC = () => {
   const { user, login, register, logout, updateUser, refreshUser } = useAuth();
@@ -27,9 +32,28 @@ export const ProfileView: React.FC = () => {
   const [copiedTgCode, setCopiedTgCode] = useState(false);
   const [profileToast, setProfileToast] = useState<{ msg: string; type: 'error' | 'success' } | null>(null);
 
+  const [updateInfo, setUpdateInfo] = useState<ReleaseInfo | null>(null);
+  const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
+
   const showToast = (msg: string, type: 'error' | 'success' = 'error') => {
     setProfileToast({ msg, type });
     setTimeout(() => setProfileToast(null), 3500);
+  };
+
+  const handleCheckUpdate = async () => {
+    setIsCheckingUpdate(true);
+    soundManager.playClick();
+    try {
+      const info = await checkAppUpdate();
+      setUpdateInfo(info);
+      if (!info.hasUpdate) {
+        showToast(`У вас установлена актуальная версия v${info.currentVersion}!`, 'success');
+      }
+    } catch {
+      showToast('Не удалось проверить обновления', 'error');
+    } finally {
+      setIsCheckingUpdate(false);
+    }
   };
 
   if (!user) return null;
@@ -262,40 +286,60 @@ export const ProfileView: React.FC = () => {
 
         {/* Detailed Stats Cards */}
         <div className="grid grid-cols-2 gap-2 w-full text-left">
-          <div className="bg-purple-900/40 rounded-2xl p-3 border border-purple-400/20 flex items-center gap-3">
-            <Coins className="w-6 h-6 text-amber-400 shrink-0" />
+          <div className="bg-purple-900/40 rounded-2xl p-2.5 border border-purple-400/20 flex items-center gap-2.5">
+            <Coins className="w-5 h-5 text-amber-400 shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] text-purple-300 font-bold uppercase">Монеты</div>
-              <div className="font-mono font-black text-amber-300 text-sm truncate">
+              <div className="text-[9px] text-purple-300 font-bold uppercase">Монеты</div>
+              <div className="font-mono font-black text-amber-300 text-xs truncate">
                 {formatCoins(user.coins)}
               </div>
             </div>
           </div>
 
-          <div className="bg-purple-900/40 rounded-2xl p-3 border border-purple-400/20 flex items-center gap-3">
-            <Trophy className="w-6 h-6 text-emerald-400 shrink-0" />
+          <div className="bg-purple-900/40 rounded-2xl p-2.5 border border-purple-400/20 flex items-center gap-2.5">
+            <Trophy className="w-5 h-5 text-emerald-400 shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] text-purple-300 font-bold uppercase">Макс. выигрыш</div>
-              <div className="font-mono font-black text-emerald-400 text-sm truncate">
+              <div className="text-[9px] text-purple-300 font-bold uppercase">Макс. выигрыш</div>
+              <div className="font-mono font-black text-emerald-400 text-xs truncate">
                 +{formatCoins(user.biggest_win)}
               </div>
             </div>
           </div>
 
-          <div className="bg-purple-900/40 rounded-2xl p-3 border border-purple-400/20 flex items-center gap-3">
-            <Dices className="w-6 h-6 text-purple-300 shrink-0" />
+          <div className="bg-purple-900/40 rounded-2xl p-2.5 border border-purple-400/20 flex items-center gap-2.5">
+            <Dices className="w-5 h-5 text-purple-300 shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] text-purple-300 font-bold uppercase">Сыграно игр</div>
-              <div className="font-mono font-black text-white text-sm truncate">
+              <div className="text-[9px] text-purple-300 font-bold uppercase">Сыграно игр</div>
+              <div className="font-mono font-black text-white text-xs truncate">
                 {user.games_played || 0}
               </div>
             </div>
           </div>
 
-          <div className="bg-purple-900/40 rounded-2xl p-3 border border-purple-400/20 flex items-center gap-3">
-            <Clock className="w-6 h-6 text-cyan-400 shrink-0" />
+          <div className="bg-purple-900/40 rounded-2xl p-2.5 border border-purple-400/20 flex items-center gap-2.5">
+            <Trophy className="w-5 h-5 text-yellow-400 shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] text-purple-300 font-bold uppercase">Время в игре</div>
+              <div className="text-[9px] text-yellow-300 font-bold uppercase">Побед</div>
+              <div className="font-mono font-black text-yellow-300 text-xs truncate">
+                {user.wins_count ?? 0}
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-purple-900/40 rounded-2xl p-2.5 border border-purple-400/20 flex items-center gap-2.5">
+            <Target className="w-5 h-5 text-amber-400 shrink-0" />
+            <div className="min-w-0">
+              <div className="text-[9px] text-amber-300 font-bold uppercase">Винрейт</div>
+              <div className="font-mono font-black text-amber-300 text-xs truncate">
+                {user.win_rate ?? 0}%
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-purple-900/40 rounded-2xl p-2.5 border border-purple-400/20 flex items-center gap-2.5">
+            <Clock className="w-5 h-5 text-cyan-400 shrink-0" />
+            <div className="min-w-0">
+              <div className="text-[9px] text-purple-300 font-bold uppercase">Время в игре</div>
               <div className="font-mono font-black text-cyan-300 text-xs truncate">
                 {formatTimeSpent(user.time_spent_seconds)}
               </div>
@@ -409,6 +453,35 @@ export const ProfileView: React.FC = () => {
             </div>
           )}
         </div>
+
+        {/* App Version & Auto-Updater Section */}
+        <div className="w-full rounded-2xl bg-gradient-to-r from-[#200938] via-[#2a0b4a] to-[#1a062f] border border-purple-400/40 p-3 text-left flex items-center justify-between shadow-md">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-purple-800 text-amber-400 flex items-center justify-center border border-purple-400/30 shadow-inner shrink-0">
+              <Download className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-black text-white">KirillGames APK</span>
+                <span className="text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.2 rounded font-mono font-bold border border-amber-400/30">
+                  v{CURRENT_APP_VERSION}
+                </span>
+              </div>
+              <span className="text-[10px] text-purple-300 block">
+                Свежие релизы с новыми играми
+              </span>
+            </div>
+          </div>
+
+          <button
+            onClick={handleCheckUpdate}
+            disabled={isCheckingUpdate}
+            className="cartoon-btn btn-gold px-3 py-1.5 text-xs font-black flex items-center gap-1.5 active:scale-95 shrink-0"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isCheckingUpdate ? 'animate-spin' : ''}`} />
+            <span>{isCheckingUpdate ? 'Проверка...' : 'Обновить'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Auth Modal (Login / Register / OAuth stubs) */}
@@ -503,6 +576,14 @@ export const ProfileView: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* App Update Modal */}
+      {updateInfo && updateInfo.hasUpdate && (
+        <AppUpdateModal
+          info={updateInfo}
+          onClose={() => setUpdateInfo(null)}
+        />
       )}
     </div>
   );
