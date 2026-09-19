@@ -102,6 +102,7 @@ def main():
         ("casino_holdem", 300, 30000, 100.0),
         ("pharaoh_gold", 250, 25000, 100.0),
         ("vault_cracker", 100, 10000, 100.0),
+        ("craps", 150, 600, 4.0),
     ]
     for gtype, bet, win, mult in games:
         status, res = api_call("/api/games/record", "POST", {

@@ -8,7 +8,7 @@ export interface ReleaseInfo {
   releaseDate: string | null;
 }
 
-export const CURRENT_APP_VERSION = '1.1.23';
+export const CURRENT_APP_VERSION = '1.1.25';
 
 /**
  * Compare two semver strings (e.g., "1.1.23" vs "1.1.22")

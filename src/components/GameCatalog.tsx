@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { soundManager } from '../audio/soundManager';
 import { Play, Sparkles, Users, Gift } from 'lucide-react';
 import { LiveWinTicker } from './LiveWinTicker';
 
-export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty' | 'scratch' | 'sicbo' | 'sweetrush' | 'battleship' | 'rps' | 'holdem' | 'pharaoh' | 'safe';
+export type GameId = 'slots' | 'crash' | 'blackjack' | 'poker' | 'towers' | 'mines' | 'plinko' | 'roulette' | 'dice' | 'keno' | 'coinflip' | 'hilo' | 'baccarat' | 'thimbles' | 'limbo' | 'dragontiger' | 'wheel' | 'penalty' | 'scratch' | 'sicbo' | 'sweetrush' | 'battleship' | 'rps' | 'holdem' | 'pharaoh' | 'safe' | 'craps';
 
 interface GameCatalogProps {
   onSelectGame: (gameId: GameId) => void;
@@ -257,9 +257,41 @@ const GAMES: GameItem[] = [
     tag: 'НОВИНКА',
     color: 'from-slate-700/50 via-zinc-800/40 to-amber-950/60 border-slate-400/50',
   },
+  {
+    id: 'craps',
+    name: 'Vegas Craps',
+    category: 'Кости Вегаса',
+    emoji: '🎲',
+    description: 'Pass Line, Field до x3, Hardways и атмосфера Лас-Вегаса!',
+    tag: 'НОВИНКА',
+    color: 'from-emerald-700/50 via-teal-800/40 to-stone-950/60 border-emerald-500/50',
+  },
+];
+
+const CATEGORY_MAP: Record<string, GameId[]> = {
+  slots: ['slots', 'sweetrush', 'pharaoh'],
+  cards: ['poker', 'blackjack', 'holdem', 'baccarat', 'dragontiger', 'hilo'],
+  arcade: ['crash', 'plinko', 'mines', 'towers', 'limbo', 'safe', 'battleship', 'penalty', 'rps', 'thimbles'],
+  dice: ['craps', 'dice', 'sicbo', 'roulette', 'wheel'],
+  lottery: ['keno', 'scratch', 'coinflip'],
+};
+
+const CATEGORIES = [
+  { id: 'all', name: 'Все (27)', emoji: '🔥' },
+  { id: 'slots', name: 'Слоты', emoji: '🎰' },
+  { id: 'cards', name: 'Карты', emoji: '🃏' },
+  { id: 'arcade', name: 'Аркады', emoji: '🚀' },
+  { id: 'dice', name: 'Кости & Столы', emoji: '🎲' },
+  { id: 'lottery', name: 'Лотереи', emoji: '🎫' },
 ];
 
 export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame, onOpenDailyStreak }) => {
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+
+  const filteredGames = activeCategory === 'all'
+    ? GAMES
+    : GAMES.filter((g) => CATEGORY_MAP[activeCategory]?.includes(g.id));
+
   return (
     <div className="w-full flex flex-col gap-3 px-2.5 py-2 animate-fadeIn pb-28">
       {/* Catalog Title */}
@@ -273,8 +305,29 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame, onOpenDa
           </p>
         </div>
         <div className="bg-purple-900/80 px-3 py-1 rounded-full border border-purple-400/40 text-[11px] font-black text-amber-300 flex items-center gap-1 shadow-md">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 26 ИГР
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 27 ИГР
         </div>
+      </div>
+
+      {/* Category Filter Pills */}
+      <div className="w-full flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat.id}
+            onClick={() => {
+              soundManager.playClick();
+              setActiveCategory(cat.id);
+            }}
+            className={`px-3 py-1.5 rounded-full text-xs font-black shrink-0 transition-all flex items-center gap-1 active:scale-95 ${
+              activeCategory === cat.id
+                ? 'bg-amber-400 text-purple-950 shadow-md scale-105'
+                : 'bg-[#1b0736] text-purple-200 border border-purple-400/30 hover:bg-purple-900/40'
+            }`}
+          >
+            <span>{cat.emoji}</span>
+            <span>{cat.name}</span>
+          </button>
+        ))}
       </div>
 
       {/* Daily Streak Promo Banner */}
@@ -311,7 +364,7 @@ export const GameCatalog: React.FC<GameCatalogProps> = ({ onSelectGame, onOpenDa
 
       {/* 2 Buttons in One Row Grid */}
       <div className="grid grid-cols-2 gap-2.5">
-        {GAMES.map((game) => (
+        {filteredGames.map((game) => (
           <div
             key={game.id}
             onClick={() => {

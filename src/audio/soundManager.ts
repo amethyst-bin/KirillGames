@@ -993,6 +993,76 @@ class SoundManager {
     osc3.stop(now + 0.86);
   }
 
+  // Realistic Dice Shake in Leather Cup
+  public playDiceShake() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    for (let i = 0; i < 4; i++) {
+      const time = now + i * 0.045;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(320 + Math.random() * 280, time);
+      osc.frequency.exponentialRampToValueAtTime(160, time + 0.035);
+      gain.gain.setValueAtTime(0.18, time);
+      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.04);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(time);
+      osc.stop(time + 0.045);
+    }
+  }
+
+  // Percussive Dice Tumble Impact on Velvet Felt
+  public playDiceTumble() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    // Two sequential thuds representing two dice landing
+    [0, 0.07].forEach((delay, idx) => {
+      const t = now + delay;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(idx === 0 ? 180 : 220, t);
+      osc.frequency.exponentialRampToValueAtTime(60, t + 0.09);
+      gain.gain.setValueAtTime(0.3, t);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.09);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.1);
+    });
+  }
+
+  // Energetic Casino Brass Fanfare for Craps Hits
+  public playCrapsWin() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const notes = [261.63, 329.63, 392.00, 523.25]; // C, E, G, C5
+    notes.forEach((freq, idx) => {
+      const t = now + idx * 0.07;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, t);
+      gain.gain.setValueAtTime(0.15, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.26);
+    });
+  }
+
   // Tactile Haptic Vibration
   public vibrate(pattern: number | number[] = 15) {
     if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {

@@ -40,6 +40,7 @@ import { RPSGame } from './games/RPSGame';
 import { CasinoHoldemGame } from './games/CasinoHoldemGame';
 import { PharaohGame } from './games/PharaohGame';
 import { SafeGame } from './games/SafeGame';
+import { CrapsGame } from './games/CrapsGame';
 
 import { QuestsModal } from './components/QuestsModal';
 import { OnboardingAuthModal } from './components/OnboardingAuthModal';
@@ -195,6 +196,9 @@ function MainApp() {
             )}
             {activeGame === 'safe' && (
               <SafeGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
+            )}
+            {activeGame === 'craps' && (
+              <CrapsGame onBack={handleBackToCatalog} onOpenBank={() => setActiveTab('bank')} />
             )}
           </>
         )}

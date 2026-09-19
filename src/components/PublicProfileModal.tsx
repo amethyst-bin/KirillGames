@@ -37,6 +37,9 @@ const GAME_NAMES: Record<string, { name: string; emoji: string }> = {
   wheel: { name: 'Колесо Фортуны', emoji: '🎯' },
   scratch: { name: 'Скретч-карты', emoji: '🎫' },
   daily_streak: { name: 'Ежедневный бонус', emoji: '🎁' },
+  craps: { name: 'Vegas Craps', emoji: '🎲' },
+  vault_cracker: { name: 'Взлом Сейфа', emoji: '🔐' },
+  pharaoh_gold: { name: 'Книга Ра', emoji: '📜' },
 };
 
 export const PublicProfileModal: React.FC<PublicProfileModalProps> = ({ user: initialUser, onClose }) => {
